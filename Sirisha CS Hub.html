@@ -1,0 +1,1465 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset=utf8>
+  <meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <style>
+    :root {
+      color-scheme: light;
+      box-sizing: border-box;
+      padding-top: env(safe-area-inset-top, 0px);
+      padding-bottom: env(safe-area-inset-bottom, 0px)
+    }
+
+    html {
+      scroll-padding-top: env(safe-area-inset-top, 0px)
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font: 14px -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #fff;
+      color: #000
+    }
+
+    img {
+      max-width: 100%
+    }
+
+    [hidden]:not([hidden=until-found i]) {
+      display: none !important
+    }
+  </style>
+</head>
+
+<body>
+  <title>Sirisha portfolio</title>
+  <meta name="claude:viewport-fit-sides" content="cover">
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;600;700&display=swap">
+  <style>
+    /* Layout: fixed canvas network behind a sticky glass nav; one section visible at a time, routed by hash. */
+    :root {
+      --bg: #050b1f;
+      --bg2: #0a1535;
+      --panel: rgba(16, 32, 72, .55);
+      --panel-solid: #0d1b40;
+      --line: rgba(90, 170, 255, .22);
+      --fg: #e6f0ff;
+      --mute: #8fa8d4;
+      --blue: #2f7bff;
+      --cyan: #22d3ee;
+      --glow: rgba(47, 123, 255, .45);
+      --ok: #34d399;
+      --bad: #fb7185;
+      --warn: #fbbf24;
+      color-scheme: dark;
+      --head: 'Space Grotesk', system-ui, sans-serif;
+      --body: 'Inter', system-ui, sans-serif;
+      --mono: 'JetBrains Mono', ui-monospace, monospace
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    html {
+      scroll-behavior: smooth
+    }
+
+    body {
+      background: radial-gradient(1200px 700px at 80% -10%, #0f2a6b 0%, transparent 60%), radial-gradient(900px 600px at -10% 40%, #06307a55 0%, transparent 60%), var(--bg);
+      color: var(--fg);
+      font: 15px/1.6 var(--body);
+      margin: 0;
+      padding-left: max(16px, env(safe-area-inset-left, 0px));
+      padding-right: max(16px, env(safe-area-inset-right, 0px));
+      min-height: 100vh
+    }
+
+    #bg {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none
+    }
+
+    .app {
+      position: relative;
+      z-index: 1;
+      max-width: 1180px;
+      margin: 0 auto;
+      padding-block: 0 60px
+    }
+
+    h1,
+    h2,
+    h3,
+    h4 {
+      font-family: var(--head);
+      margin: 0;
+      text-wrap: balance;
+      line-height: 1.15
+    }
+
+    h1 {
+      font-size: clamp(2rem, 5vw, 3.4rem);
+      letter-spacing: -.02em
+    }
+
+    h2 {
+      font-size: clamp(1.5rem, 3vw, 2.1rem);
+      margin-bottom: 6px
+    }
+
+    h3 {
+      font-size: 1.15rem
+    }
+
+    p {
+      margin: 0 0 .8em
+    }
+
+    a {
+      color: var(--cyan)
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+      color: inherit
+    }
+
+    :focus-visible {
+      outline: 2px solid var(--cyan);
+      outline-offset: 2px
+    }
+
+    .grad {
+      background: linear-gradient(90deg, #7cc4ff, var(--cyan) 50%, #6ea0ff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent
+    }
+
+    .mono {
+      font-family: var(--mono)
+    }
+
+    .eyebrow {
+      font: 500 .72rem var(--mono);
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--cyan)
+    }
+
+    .muted {
+      color: var(--mute)
+    }
+
+    /* nav */
+    nav.top {
+      position: sticky;
+      top: env(safe-area-inset-top, 0px);
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 12px;
+      margin: 10px 0 24px;
+      background: rgba(7, 16, 40, .72);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      overflow-x: auto;
+      scrollbar-width: none
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0 0 auto;
+      height: env(safe-area-inset-top, 0px);
+      z-index: 30;
+      background: var(--bg)
+    }
+
+    nav.top::-webkit-scrollbar {
+      display: none
+    }
+
+    .brand {
+      font: 700 1.05rem var(--head);
+      white-space: nowrap;
+      margin-right: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px
+    }
+
+    .brand i {
+      width: 22px;
+      height: 22px;
+      border-radius: 7px;
+      background: conic-gradient(from 200deg, var(--blue), var(--cyan), var(--blue));
+      box-shadow: 0 0 14px var(--glow);
+      display: inline-block
+    }
+
+    nav.top a {
+      color: var(--mute);
+      text-decoration: none;
+      padding: 7px 12px;
+      border-radius: 10px;
+      font-weight: 500;
+      font-size: .88rem;
+      white-space: nowrap;
+      transition: .2s
+    }
+
+    nav.top a:hover {
+      color: var(--fg);
+      background: rgba(47, 123, 255, .15)
+    }
+
+    nav.top a.on {
+      color: #fff;
+      background: linear-gradient(135deg, var(--blue), #1a54c9);
+      box-shadow: 0 0 16px var(--glow)
+    }
+
+    nav.top .sp {
+      flex: 1
+    }
+
+    /* glass + 3D cards */
+    .glass {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 10px 40px rgba(0, 10, 40, .45), inset 0 1px 0 rgba(255, 255, 255, .06)
+    }
+
+    .pad {
+      padding: 20px
+    }
+
+    .tilt {
+      transform-style: preserve-3d;
+      transition: transform .15s ease, box-shadow .25s, border-color .25s;
+      will-change: transform
+    }
+
+    .tilt:hover {
+      border-color: rgba(34, 211, 238, .6);
+      box-shadow: 0 18px 50px rgba(20, 90, 255, .35), 0 0 0 1px rgba(34, 211, 238, .25)
+    }
+
+    .tilt>* {
+      transform: translateZ(18px)
+    }
+
+    .grid {
+      display: grid;
+      gap: 16px
+    }
+
+    .g2 {
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr))
+    }
+
+    .g3 {
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr))
+    }
+
+    .g4 {
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 170px), 1fr))
+    }
+
+    .row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center
+    }
+
+    .btn {
+      border: 1px solid var(--line);
+      background: rgba(47, 123, 255, .14);
+      padding: 9px 16px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: .2s
+    }
+
+    .btn:hover {
+      background: rgba(47, 123, 255, .3);
+      box-shadow: 0 0 16px var(--glow)
+    }
+
+    .btn.pri {
+      background: linear-gradient(135deg, var(--blue), #1a54c9);
+      border-color: transparent;
+      color: #fff
+    }
+
+    .btn.sm {
+      padding: 5px 10px;
+      font-size: .82rem
+    }
+
+    .btn:disabled {
+      opacity: .5;
+      cursor: default
+    }
+
+    .chip {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 99px;
+      font: 500 .74rem var(--mono);
+      background: rgba(34, 211, 238, .1);
+      border: 1px solid rgba(34, 211, 238, .3);
+      color: #a5f0ff
+    }
+
+    .chip.on {
+      background: var(--cyan);
+      color: #021226
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px
+    }
+
+    input,
+    select,
+    textarea {
+      background: rgba(5, 12, 34, .7);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 9px 12px;
+      width: 100%;
+      min-width: 0
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 70px
+    }
+
+    label {
+      display: block;
+      font-size: .8rem;
+      color: var(--mute);
+      margin: 10px 0 4px
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.3fr 1fr;
+      gap: 24px;
+      align-items: center;
+      padding: 30px
+    }
+
+    .avatar {
+      width: min(210px, 60vw);
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: conic-gradient(from 160deg, var(--blue), var(--cyan), #6ea0ff, var(--blue));
+      padding: 4px;
+      box-shadow: 0 0 50px var(--glow);
+      margin: auto;
+      animation: float 6s ease-in-out infinite
+    }
+
+    .avatar>div {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: var(--panel-solid) center/cover;
+      display: grid;
+      place-items: center;
+      font: 700 3.4rem var(--head);
+      color: var(--cyan)
+    }
+
+    @keyframes float {
+      50% {
+        transform: translateY(-10px)
+      }
+    }
+
+    .sec-head {
+      margin: 34px 0 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 12px;
+      flex-wrap: wrap
+    }
+
+    .bar {
+      height: 8px;
+      border-radius: 9px;
+      background: rgba(255, 255, 255, .08);
+      overflow: hidden
+    }
+
+    .bar>i {
+      display: block;
+      height: 100%;
+      background: linear-gradient(90deg, var(--blue), var(--cyan));
+      box-shadow: 0 0 10px var(--glow)
+    }
+
+    pre,
+    code {
+      font-family: var(--mono);
+      font-size: .84rem
+    }
+
+    pre {
+      background: #030813;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 14px;
+      overflow-x: auto;
+      margin: 8px 0;
+      color: #bfe3ff
+    }
+
+    .tabs {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin: 10px 0
+    }
+
+    .tabs button {
+      border: 1px solid var(--line);
+      background: transparent;
+      border-radius: 10px;
+      padding: 6px 13px;
+      cursor: pointer;
+      color: var(--mute)
+    }
+
+    .tabs button.on {
+      background: rgba(47, 123, 255, .3);
+      color: #fff;
+      border-color: var(--blue)
+    }
+
+    .opt {
+      display: block;
+      width: 100%;
+      text-align: left;
+      margin: 6px 0;
+      padding: 10px 14px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: rgba(10, 24, 60, .6);
+      cursor: pointer
+    }
+
+    .opt:hover {
+      border-color: var(--cyan)
+    }
+
+    .opt.ok {
+      background: rgba(52, 211, 153, .2);
+      border-color: var(--ok)
+    }
+
+    .opt.bad {
+      background: rgba(251, 113, 133, .2);
+      border-color: var(--bad)
+    }
+
+    .calc {
+      max-width: 380px;
+      margin: auto
+    }
+
+    .disp {
+      background: #030813;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 12px 14px;
+      text-align: right;
+      font: 500 1.7rem var(--mono);
+      min-height: 62px;
+      overflow: hidden;
+      word-break: break-all
+    }
+
+    .disp small {
+      display: block;
+      font-size: .8rem;
+      color: var(--mute);
+      min-height: 1.2em
+    }
+
+    .keys {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-top: 10px
+    }
+
+    .keys button {
+      padding: 13px 0;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: rgba(20, 44, 100, .5);
+      cursor: pointer;
+      font: 500 1rem var(--mono)
+    }
+
+    .keys button:hover {
+      background: rgba(47, 123, 255, .4)
+    }
+
+    .keys .op {
+      background: rgba(34, 211, 238, .18)
+    }
+
+    .keys .eq {
+      background: var(--blue);
+      color: #fff
+    }
+
+    .mem {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px
+    }
+
+    .mem .memcell {
+      aspect-ratio: 1;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #0d2a6b, #123a8f);
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      border: 1px solid var(--line);
+      font-size: 1.5rem;
+      transition: transform .35s;
+      transform-style: preserve-3d
+    }
+
+    .mem .memcell.up {
+      background: linear-gradient(135deg, #0e7490, #22d3ee);
+      color: #021226;
+      transform: rotateY(360deg)
+    }
+
+    .mem .memcell.done {
+      background: rgba(52, 211, 153, .35)
+    }
+
+    .timer {
+      font: 600 1.1rem var(--mono);
+      color: var(--cyan)
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%
+    }
+
+    td,
+    th {
+      padding: 8px 10px;
+      border-bottom: 1px solid var(--line);
+      text-align: left
+    }
+
+    .scroll {
+      overflow-x: auto
+    }
+
+    .tl {
+      border-left: 2px solid var(--line);
+      padding-left: 18px;
+      margin-left: 6px
+    }
+
+    .tl>div {
+      position: relative;
+      margin-bottom: 18px
+    }
+
+    .tl>div::before {
+      content: "";
+      position: absolute;
+      left: -25px;
+      top: 6px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--cyan);
+      box-shadow: 0 0 12px var(--cyan)
+    }
+
+    .cert {
+      position: relative;
+      overflow: hidden
+    }
+
+    .cert::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(115deg, transparent 40%, rgba(255, 255, 255, .08) 50%, transparent 60%);
+      transform: translateX(-100%);
+      transition: transform .7s
+    }
+
+    .cert:hover::after {
+      transform: translateX(100%)
+    }
+
+    .thumb {
+      height: 130px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #0d2a6b, #0a6f8f);
+      display: grid;
+      place-items: center;
+      font: 700 2.2rem var(--head);
+      color: rgba(255, 255, 255, .85);
+      background-size: cover;
+      background-position: center;
+      margin-bottom: 12px
+    }
+
+    .fab {
+      position: fixed;
+      right: max(18px, env(safe-area-inset-right, 0px));
+      bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+      z-index: 40;
+      border: 0;
+      border-radius: 99px;
+      padding: 14px 20px;
+      background: linear-gradient(135deg, var(--blue), var(--cyan));
+      color: #021226;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 0 30px var(--glow)
+    }
+
+    .chat {
+      position: fixed;
+      right: max(18px, env(safe-area-inset-right, 0px));
+      bottom: calc(78px + env(safe-area-inset-bottom, 0px));
+      z-index: 40;
+      width: min(380px, calc(100vw - 32px));
+      height: min(520px, 70vh);
+      display: flex;
+      flex-direction: column;
+      background: var(--panel-solid)
+    }
+
+    .chat .log {
+      flex: 1;
+      overflow-y: auto;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px
+    }
+
+    .msg {
+      padding: 9px 13px;
+      border-radius: 14px;
+      max-width: 88%;
+      white-space: pre-wrap;
+      word-wrap: break-word
+    }
+
+    .msg.u {
+      align-self: flex-end;
+      background: var(--blue)
+    }
+
+    .msg.a {
+      align-self: flex-start;
+      background: rgba(255, 255, 255, .07)
+    }
+
+    .chat[hidden],
+    .toast[hidden] {
+      display: none
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+      background: var(--panel-solid);
+      border: 1px solid var(--cyan);
+      padding: 10px 18px;
+      border-radius: 12px;
+      z-index: 60
+    }
+
+    .lvl {
+      display: inline-block;
+      padding: 2px 9px;
+      border-radius: 8px;
+      font-size: .72rem;
+      font-weight: 600
+    }
+
+    .lvl.Beginner {
+      background: rgba(52, 211, 153, .2);
+      color: #6ee7b7
+    }
+
+    .lvl.Intermediate {
+      background: rgba(251, 191, 36, .2);
+      color: #fcd34d
+    }
+
+    .lvl.Advanced {
+      background: rgba(251, 113, 133, .2);
+      color: #fda4af
+    }
+
+    .adm-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr));
+      gap: 8px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      margin-bottom: 10px
+    }
+
+    @media(max-width:760px) {
+      .hero {
+        grid-template-columns: 1fr;
+        padding: 20px
+      }
+
+      .avatar {
+        order: -1;
+        width: 150px
+      }
+    }
+
+    @media(prefers-reduced-motion:reduce) {
+      * {
+        animation: none !important;
+        transition: none !important
+      }
+    }
+  </style>
+  <canvas id="bg" aria-hidden="true"></canvas>
+  <div class="app">
+    <nav class="top" id="nav" aria-label="Sections"></nav>
+    <main id="view"></main>
+  </div>
+  <button class="fab" id="fab" type="button">✦ Ask AI</button>
+  <section class="chat glass" id="chat" hidden aria-label="AI assistant">
+    <div class="pad row" style="justify-content:space-between;border-bottom:1px solid var(--line)">
+      <strong>AI Assistant</strong><button class="btn sm" id="chatx" type="button">Close</button>
+    </div>
+    <div class="log" id="log"></div>
+    <form class="pad row" id="chatf" style="flex-wrap:nowrap;border-top:1px solid var(--line)">
+      <input id="chatin" placeholder="Ask a CS question…" autocomplete="off">
+      <button class="btn pri" type="submit" id="chatgo">Send</button>
+    </form>
+  </section>
+  <div class="toast" id="toast" hidden></div>
+  <script>
+    const DEFAULTS = {
+      profile: {
+        name: "Nelakurthi Manisirisha", nick: "Sirisha", title: "Final-year CSE student · Backend & ML builder",
+        intro: "I build Spring Boot  applications and apply machine learning to practical problems ",
+        photo: "images/image.jpeg",
+        education: "B.E. Computer Science and Engineering, Mahendra Institute of Technology, Namakkal, Tamil Nadu (final year). CGPA ≈ 8.4.",
+        skills: "Java, Spring Boot 3, MySQL, Python, YOLOv8, scikit-learn, PyTorch",
+        languages: "Java, Python,  ",
+        interests: "Backend development, Machine learning, Computer vision, Deep learning, Gen AI",
+        objective: "Secure a software engineering or AI engineer role where I can build reliable backend and AI-powered products, and keep growing through hard problems.",
+        email: "nalakurthimanisirisha@gmail.com", phone: "6302534120", github: "https://github.com/siri-software", linkedin: "https://www.linkedin.com/in/nelakurthi-manisirisha", location: "Namakkal, Tamil Nadu, India",
+        resume: "Nelakurthi_Manisirisha_Resume_Updated.pdf",
+      },
+      projects: [
+        { id: "waste", title: "Smart Waste Management System", cat: "AI/ML", tech: "Spring Boot, YOLOv8, CNN", desc: "Computer-vision system that detects and classifies waste items with YOLOv8.", details: "Smart Waste Segregation System is an intelligent waste management solution designed to automatically identify and separate different types of waste, such as biodegradable, non-biodegradable, and recyclable materials. ", github: "", live: "" },
+        { id: "park", title: "Car Parking Management System", cat: "Full-stack", tech: "Java, Spring Boot,  Thymeleaf, MySQL", desc: "Parking management with role-based access and JWT security.", details: "Spring Security with JWT, BCrypt and role-based access control. My contribution: Thymeleaf frontends with role-conditional rendering and Spring Boot integration.", github: "", live: "" }],
+      certs: [
+        { name: "Certification 1", org: "", img: "images/1.jpeg" },
+        { name: "Certification 2", org: "", img: "images/2.jpeg" },
+        { name: "Certification 3", org: "", img: "images/3.jpeg" },
+        { name: "Certification 4", org: "", img: "images/4.jpeg" },
+        { name: "Certification 5", org: "", img: "images/5.jpeg" },
+        { name: "Certification 6", org: "", img: "images/6.jpeg" }
+      ],
+      exp: [{ id: "dev", company: "The Developers Arena", role: "Full Stack Java Development Intern", period: "", desc: "Worked on full-stack Java development with Spring Boot, MySQL and a React front end.", skills: "Java, Spring Boot, MySQL, React.js" }]
+    };
+    const T = (id, name, ic, lv, iq, mcq, ex) => ({ id, name, ic, lv, iq, mcq, ex });
+    const L = (txt, pts, code) => ({ txt, pts, code });
+    const TOPICS = [
+      T("python", "Python", "🐍", {
+        Beginner: L("Python is a readable, dynamically typed language. You write statements and run them top to bottom, with indentation marking blocks.", ["Variables, int/float/str/bool", "if / for / while", "list, tuple, dict, set", "functions with def"], "names = ['asha','ravi']\nfor n in names:\n    print(n.title())"),
+        Intermediate: L("Comprehensions, generators and decorators let you write compact, lazy and reusable code.", ["List/dict comprehensions", "Generators and yield", "Decorators and closures", "Exceptions and context managers"], "squares = [x*x for x in range(5) if x%2==0]\nprint(squares)  # [0, 4, 16]"),
+        Advanced: L("Understand the GIL, async I/O and the data model (dunder methods) to write fast, idiomatic code.", ["GIL and multiprocessing", "asyncio event loop", "__slots__, descriptors", "Type hints and dataclasses"], "import asyncio\nasync def f(): await asyncio.sleep(0); return 1\nprint(asyncio.run(f()))")
+      },
+        [["What is the difference between a list and a tuple?", "Lists are mutable; tuples are immutable and hashable if their items are."], ["What is a decorator?", "A function that takes a function and returns a wrapped version, applied with @name."], ["Explain the GIL.", "A lock that lets only one thread run Python bytecode at a time in CPython, so CPU-bound threads do not run in parallel."]],
+        [["What does len({1,2,2,3}) return?", ["4", "3", "2", "Error"], 1, "A set keeps unique items: {1,2,3}."], ["Which keyword creates a generator?", ["return", "yield", "lambda", "pass"], 1, "yield turns a function into a generator."], ["Output of 3//2?", ["1.5", "1", "2", "1.0"], 1, "// is floor division."]],
+        ["Write a function that returns the second largest number in a list.", "Count word frequency in a sentence using a dict.", "Write a decorator that times a function."]),
+      T("java", "Java", "☕", {
+        Beginner: L("Java is a statically typed, compiled-to-bytecode language that runs on the JVM. Everything lives inside classes.", ["main method", "Primitive vs reference types", "Arrays and Strings", "Control flow"], "public class Hi {\n  public static void main(String[] a){\n    System.out.println(\"Hello\");\n  }\n}"),
+        Intermediate: L("Collections, generics, exceptions and streams are the daily tools of a Java developer.", ["ArrayList, HashMap, HashSet", "Generics", "Checked vs unchecked exceptions", "Streams and lambdas"], "List<Integer> r = List.of(1,2,3,4).stream()\n  .filter(x->x%2==0).toList();"),
+        Advanced: L("Know memory (heap, stack, GC), concurrency and the JVM to build reliable services.", ["Garbage collection", "synchronized, volatile, ExecutorService", "CompletableFuture", "Class loading"], "ExecutorService ex = Executors.newFixedThreadPool(4);\nex.submit(() -> System.out.println(\"task\"));\nex.shutdown();")
+      },
+        [["Difference between == and equals()?", "== compares references (or primitive values); equals() compares logical content when overridden."], ["What is the JVM, JRE, JDK?", "JVM runs bytecode; JRE = JVM + libraries; JDK = JRE + compiler and tools."], ["How does HashMap work?", "It hashes the key to a bucket; collisions are stored in a linked list or tree."]],
+        [["Which is not a primitive?", ["int", "boolean", "String", "char"], 2, "String is a class."], ["Default value of an int field?", ["null", "0", "undefined", "-1"], 1, "Numeric fields default to 0."], ["Which collection keeps insertion order and allows duplicates?", ["HashSet", "ArrayList", "TreeSet", "HashMap"], 1, "ArrayList is an ordered list."]],
+        ["Reverse a string without StringBuilder.reverse().", "Implement a thread-safe counter.", "Group a list of names by first letter using streams."]),
+      T("cpp", "C and C++", "⚙️", {
+        Beginner: L("C gives direct control of memory with pointers. C++ adds classes and the STL on top.", ["Data types and operators", "Pointers and arrays", "Functions", "Structs"], "#include <stdio.h>\nint main(){ int x=5,*p=&x; printf(\"%d\",*p); }"),
+        Intermediate: L("Dynamic memory, references and the STL containers let you build real programs.", ["malloc/free, new/delete", "References", "vector, map, set", "Classes and constructors"], "std::vector<int> v{3,1,2};\nstd::sort(v.begin(), v.end());"),
+        Advanced: L("RAII, smart pointers and move semantics prevent leaks and unneeded copies.", ["unique_ptr / shared_ptr", "Move semantics", "Templates", "Undefined behaviour"], "auto p = std::make_unique<int>(7);\nstd::cout << *p;")
+      },
+        [["What is a dangling pointer?", "A pointer to memory that has been freed or gone out of scope."], ["Difference between struct and class in C++?", "Default access: struct is public, class is private."], ["What is RAII?", "Resources are acquired in a constructor and released in a destructor, tying lifetime to scope."]],
+        [["sizeof(char) is?", ["1", "2", "4", "Depends"], 0, "By definition sizeof(char) is 1."], ["Which frees memory from malloc?", ["delete", "free", "remove", "clear"], 1, "malloc pairs with free."], ["Which header has vector?", ["<vector>", "<array.h>", "<list.h>", "<stdlib.h>"], 0, "#include <vector>."]],
+        ["Swap two integers using pointers.", "Reverse a linked list.", "Implement a simple stack class."]),
+      T("dsa", "Data Structures & Algorithms", "🧮", {
+        Beginner: L("Data structures organise data; algorithms process it. Learn to measure cost with Big-O.", ["Arrays, strings", "Stack and queue", "Linear and binary search", "O(1), O(n), O(log n)"], "def bsearch(a,t):\n    lo,hi=0,len(a)-1\n    while lo<=hi:\n        m=(lo+hi)//2\n        if a[m]==t: return m\n        lo,hi=(m+1,hi) if a[m]<t else (lo,m-1)\n    return -1"),
+        Intermediate: L("Trees, heaps, hashing, recursion and sorting cover most interview problems.", ["BST, heap", "Hash map patterns", "Merge/quick sort", "Two pointers, sliding window"], "def window(a,k):\n    s=sum(a[:k]);b=s\n    for i in range(k,len(a)):\n        s+=a[i]-a[i-k];b=max(b,s)\n    return b"),
+        Advanced: L("Graphs, dynamic programming and tries solve the hardest problems.", ["BFS/DFS, Dijkstra", "DP: memoise and tabulate", "Union-Find", "Tries, segment trees"], "from functools import lru_cache\n@lru_cache(None)\ndef fib(n): return n if n<2 else fib(n-1)+fib(n-2)")
+      },
+        [["Array vs linked list?", "Arrays give O(1) index access; linked lists give O(1) insert/delete at a known node."], ["When is DP applicable?", "Overlapping subproblems and optimal substructure."], ["Time complexity of quicksort?", "O(n log n) average, O(n²) worst case."]],
+        [["Binary search needs the data to be?", ["Sorted", "Unique", "Linked", "Random"], 0, "It halves a sorted range."], ["Stack order is?", ["FIFO", "LIFO", "Random", "Sorted"], 1, "Last in, first out."], ["BFS uses a?", ["Stack", "Queue", "Heap", "Tree"], 1, "BFS uses a queue."]],
+        ["Check if a string is a palindrome.", "Find two numbers that sum to a target.", "Detect a cycle in a linked list."]),
+      T("oop", "Object-Oriented Programming", "🧩", {
+        Beginner: L("OOP models programs as objects that bundle data and behaviour.", ["Class and object", "Constructor", "Encapsulation", "Methods"], "class Dog:\n    def __init__(self,n): self.n=n\n    def bark(self): return self.n+' woof'"),
+        Intermediate: L("Inheritance and polymorphism let classes share and customise behaviour.", ["Inheritance", "Method overriding", "Abstract classes and interfaces", "Composition"], "class Animal:\n    def speak(self): ...\nclass Cat(Animal):\n    def speak(self): return 'meow'"),
+        Advanced: L("SOLID principles and design patterns keep large codebases flexible.", ["SOLID", "Factory, Singleton, Observer", "Dependency injection", "Composition over inheritance"], "interface Payment { void pay(int amt); }\nclass Upi implements Payment { public void pay(int a){} }")
+      },
+        [["Four pillars of OOP?", "Encapsulation, abstraction, inheritance, polymorphism."], ["Overloading vs overriding?", "Overloading: same name, different parameters. Overriding: subclass redefines a parent method."], ["Abstract class vs interface?", "An abstract class can hold state and partial implementation; an interface defines a contract."]],
+        [["Hiding internal data is called?", ["Inheritance", "Encapsulation", "Polymorphism", "Overloading"], 1, "Encapsulation restricts direct access."], ["Runtime polymorphism uses?", ["Overloading", "Overriding", "Constructors", "Static"], 1, "Overriding resolves at runtime."], ["Which creates objects from a class?", ["Constructor", "Destructor", "Interface", "Package"], 0, "Constructors initialise new objects."]],
+        ["Model a Bank Account with deposit and withdraw.", "Create Shape → Circle/Rectangle with area().", "Apply the Strategy pattern to payments."]),
+      T("dbms", "DBMS & SQL", "🗄️", {
+        Beginner: L("A database stores structured data. SQL queries tables made of rows and columns.", ["Tables, keys", "SELECT, WHERE, ORDER BY", "INSERT, UPDATE, DELETE", "Primary and foreign key"], "SELECT name, cgpa FROM students\nWHERE cgpa > 8 ORDER BY cgpa DESC;"),
+        Intermediate: L("Joins, grouping and normalisation turn raw tables into answers.", ["INNER/LEFT JOIN", "GROUP BY, HAVING", "Normal forms 1NF–3NF", "Indexes"], "SELECT d.name, COUNT(*)\nFROM emp e JOIN dept d ON e.d=d.id\nGROUP BY d.name;"),
+        Advanced: L("Transactions, isolation and query plans decide correctness and speed.", ["ACID", "Isolation levels", "B-tree indexes, EXPLAIN", "Sharding and replication"], "START TRANSACTION;\nUPDATE acc SET bal=bal-100 WHERE id=1;\nUPDATE acc SET bal=bal+100 WHERE id=2;\nCOMMIT;")
+      },
+        [["What is normalisation?", "Organising tables to reduce redundancy and update anomalies."], ["WHERE vs HAVING?", "WHERE filters rows before grouping; HAVING filters groups after."], ["What does ACID stand for?", "Atomicity, Consistency, Isolation, Durability."]],
+        [["Which removes duplicates?", ["UNIQUE", "DISTINCT", "GROUP", "ONLY"], 1, "SELECT DISTINCT."], ["A foreign key refers to?", ["Any column", "A primary key in another table", "A view", "An index"], 1, "It enforces referential integrity."], ["Which join keeps all left rows?", ["INNER", "LEFT", "CROSS", "SELF"], 1, "LEFT JOIN keeps unmatched left rows."]],
+        ["Find the second highest salary.", "Count students per department.", "Design tables for a library system."]),
+      T("os", "Operating Systems", "🖥️", {
+        Beginner: L("The OS manages hardware and gives programs a safe way to use CPU, memory and files.", ["Process vs thread", "Kernel and user mode", "System calls", "File system"], "$ ps aux | head\n$ top"),
+        Intermediate: L("Scheduling, synchronisation and memory management are the core topics.", ["FCFS, SJF, Round Robin", "Mutex, semaphore", "Paging, segmentation", "Virtual memory"], "// semaphore pattern\nwait(S); /* critical section */ signal(S);"),
+        Advanced: L("Deadlocks, page replacement and I/O scheduling show how real kernels balance goals.", ["Deadlock conditions and avoidance", "LRU, FIFO page replacement", "Thrashing", "Context switch cost"], "Coffman: mutual exclusion, hold & wait,\nno preemption, circular wait")
+      },
+        [["Process vs thread?", "A process has its own address space; threads share the process memory."], ["What is a deadlock?", "Processes wait on each other forever, each holding a resource the other needs."], ["What is virtual memory?", "An abstraction that lets programs use more memory than RAM by swapping pages to disk."]],
+        [["Round Robin uses?", ["Priority", "Time quantum", "Shortest job", "Random"], 1, "Each process gets a fixed time slice."], ["Which is NOT a deadlock condition?", ["Hold and wait", "Preemption", "Circular wait", "Mutual exclusion"], 1, "No preemption is the condition."], ["A page fault occurs when?", ["Page is in RAM", "Page is not in RAM", "Disk is full", "CPU is idle"], 1, "The page must be loaded from disk."]],
+        ["Simulate Round Robin for 3 processes.", "Solve the producer–consumer problem with semaphores.", "Compute page faults with FIFO for a reference string."]),
+      T("cn", "Computer Networks", "🌐", {
+        Beginner: L("Networks let computers exchange data using agreed rules called protocols.", ["OSI and TCP/IP layers", "IP address, port", "HTTP, DNS", "LAN, WAN"], "$ ping example.com\n$ nslookup example.com"),
+        Intermediate: L("TCP gives reliable delivery; routing and subnetting move packets between networks.", ["TCP vs UDP", "3-way handshake", "Subnetting, CIDR", "Routing basics"], "192.168.1.0/24 → 256 addresses (254 hosts)"),
+        Advanced: L("Congestion control, TLS and load balancing keep the internet fast and secure.", ["TCP congestion control", "TLS handshake", "BGP", "CDN and load balancers"], "Client → ClientHello → Server → Certificate → Keys → Encrypted data")
+      },
+        [["TCP vs UDP?", "TCP is connection-oriented and reliable; UDP is connectionless and faster but unreliable."], ["What happens when you type a URL?", "DNS lookup, TCP/TLS connection, HTTP request, server response, browser renders."], ["What is NAT?", "Translates private addresses to a public one so many devices share an IP."]],
+        [["Which layer routes packets?", ["Transport", "Network", "Data link", "Session"], 1, "IP works at the Network layer."], ["Default HTTPS port?", ["80", "443", "21", "25"], 1, "HTTPS uses 443."], ["DNS maps?", ["IP to MAC", "Names to IP", "Port to IP", "URL to file"], 1, "Domain names to IP addresses."]],
+        ["Find hosts in 10.0.0.0/22.", "Explain the TCP 3-way handshake.", "Trace a request using curl -v."]),
+      T("se", "Software Engineering", "🛠️", {
+        Beginner: L("Software engineering is the disciplined process of planning, building, testing and maintaining software.", ["SDLC phases", "Requirements", "Version control (git)", "Testing basics"], "git init\ngit add .\ngit commit -m \"first commit\""),
+        Intermediate: L("Agile teams ship in small increments and rely on tests and code review.", ["Scrum, Kanban", "UML diagrams", "Unit/integration tests", "CI/CD"], "@Test void adds(){ assertEquals(4, calc.add(2,2)); }"),
+        Advanced: L("Architecture choices shape scalability and maintainability.", ["Monolith vs microservices", "Design patterns", "Observability", "Technical debt"], "Client → API Gateway → Services → DB")
+      },
+        [["Waterfall vs Agile?", "Waterfall is sequential; Agile iterates with frequent feedback."], ["What is CI/CD?", "Automated build, test and deploy on every change."], ["What is technical debt?", "Shortcuts that make future changes costlier."]],
+        [["Unit tests check?", ["Whole system", "Small pieces", "UI only", "Network"], 1, "Unit = smallest testable part."], ["Scrum sprint length is usually?", ["1 day", "1–4 weeks", "6 months", "1 year"], 1, "Typically 1–4 weeks."], ["git clone does?", ["Deletes repo", "Copies a repo", "Merges", "Pushes"], 1, "It copies a remote repository."]],
+        ["Write user stories for a library app.", "Draw a use-case diagram for an ATM.", "Set up a GitHub Actions workflow."])
+    ];
+    TOPICS.push(
+      T("ai", "Artificial Intelligence", "🤖", {
+        Beginner: L("AI builds systems that perform tasks that normally need human intelligence, such as perception, planning and language.", ["Agents and environments", "Search problems", "Knowledge and rules", "Narrow vs general AI"], "# simple rule-based agent\ndef act(temp): return 'fan on' if temp>30 else 'fan off'"),
+        Intermediate: L("Search algorithms and heuristics let agents plan routes and solve puzzles.", ["BFS, DFS, A*", "Heuristics", "Minimax and alpha-beta", "Constraint satisfaction"], "# A*: f(n) = g(n) + h(n)"),
+        Advanced: L("Modern AI mixes learning, reasoning and tools, with large language models at the centre.", ["Reinforcement learning", "Transformers and LLMs", "RAG and agents", "AI safety and bias"], "prompt → LLM → tool call → result → answer")
+      },
+        [["What is a heuristic?", "A rule of thumb that estimates how close a state is to the goal."], ["Supervised vs reinforcement learning?", "Supervised uses labelled examples; reinforcement learns from rewards by acting."], ["What is the Turing test?", "A test of whether a machine's replies are indistinguishable from a human's."]],
+        [["A* uses?", ["g only", "h only", "g + h", "Random"], 2, "f = g + h."], ["Minimax is used in?", ["Two-player games", "Sorting", "Databases", "Networking"], 0, "Adversarial game play."], ["RAG stands for?", ["Random Access Graph", "Retrieval-Augmented Generation", "Rapid AI Gateway", "Recursive Agent Graph"], 1, "It retrieves documents to ground the model."]],
+        ["Write BFS to solve a maze.", "Implement tic-tac-toe with minimax.", "Design a rule-based chatbot."]),
+      T("ml", "Machine Learning", "📈", {
+        Beginner: L("Machine learning finds patterns in data to make predictions without hard-coded rules.", ["Supervised, unsupervised", "Train/test split", "Features and labels", "Overfitting"], "from sklearn.linear_model import LinearRegression\nm=LinearRegression().fit(X,y)"),
+        Intermediate: L("Choosing models and measuring them correctly matters as much as the algorithm.", ["Logistic regression, trees, SVM", "Precision, recall, F1", "Cross-validation", "TF-IDF for text"], "from sklearn.metrics import f1_score\nprint(f1_score(y_true,y_pred))"),
+        Advanced: L("Ensembles, regularisation and pipelines make models robust and deployable.", ["Random forest, gradient boosting", "L1/L2 regularisation", "Pipelines, feature engineering", "Model serving (FastAPI)"], "from sklearn.pipeline import make_pipeline\np=make_pipeline(TfidfVectorizer(),LogisticRegression())")
+      },
+        [["What is overfitting?", "The model memorises training data and performs poorly on new data."], ["Precision vs recall?", "Precision: correct share of predicted positives. Recall: share of real positives found."], ["Bias–variance trade-off?", "Simple models underfit (bias); complex models overfit (variance)."]],
+        [["Which is unsupervised?", ["Linear regression", "K-means", "Logistic regression", "SVM"], 1, "K-means clusters unlabelled data."], ["Train/test split prevents?", ["Underfitting", "Evaluation on seen data", "Missing values", "Scaling"], 1, "You test on unseen data."], ["Accuracy misleads when?", ["Data is balanced", "Classes are imbalanced", "Data is large", "Features are few"], 1, "A majority-class guesser scores high."]],
+        ["Train a classifier on the Iris dataset.", "Compute precision and recall by hand.", "Build a spam classifier with TF-IDF."]),
+      T("dl", "Deep Learning", "🧠", {
+        Beginner: L("Deep learning stacks many layers of artificial neurons that learn features from raw data.", ["Neuron, weights, bias", "Activation (ReLU, sigmoid)", "Loss function", "Gradient descent"], "y = relu(w*x + b)"),
+        Intermediate: L("CNNs read images, RNNs and transformers read sequences.", ["CNN: convolution, pooling", "RNN, LSTM", "Backpropagation", "Dropout, batch norm"], "import torch.nn as nn\nnet=nn.Sequential(nn.Linear(4,8),nn.ReLU(),nn.Linear(8,1))"),
+        Advanced: L("Transfer learning and object detectors such as YOLO reuse learned features at scale.", ["Transfer learning", "YOLO detection", "Attention and transformers", "Mixed precision, GPUs"], "from ultralytics import YOLO\nYOLO('yolov8n.pt').predict('img.jpg')")
+      },
+        [["Why use ReLU?", "It is cheap and reduces vanishing gradients."], ["What is backpropagation?", "It computes the gradient of the loss for each weight by the chain rule."], ["What does a CNN pooling layer do?", "Downsamples feature maps, keeping strong signals and reducing computation."]],
+        [["Gradient descent minimises?", ["Accuracy", "Loss", "Epochs", "Layers"], 1, "It reduces the loss."], ["Dropout helps with?", ["Speed", "Overfitting", "Data cleaning", "Labels"], 1, "It randomly disables neurons while training."], ["YOLO is used for?", ["Object detection", "Sorting", "SQL", "Compression"], 0, "You Only Look Once."]],
+        ["Build a 2-layer network for XOR.", "Fine-tune a pretrained CNN on 3 classes.", "Explain each term of the cross-entropy loss."]),
+      T("ds", "Data Science", "📊", {
+        Beginner: L("Data science turns raw data into insight using statistics, code and visualisation.", ["Mean, median, mode", "Tables with pandas", "Charts", "Missing data"], "import pandas as pd\ndf=pd.read_csv('d.csv'); print(df.describe())"),
+        Intermediate: L("Cleaning, grouping and joining data takes most of a project's time.", ["groupby, merge", "Outliers", "Correlation", "Hypothesis testing"], "df.groupby('dept')['cgpa'].mean()"),
+        Advanced: L("Feature engineering and experiment design make findings trustworthy.", ["A/B testing", "Time series", "Dimensionality reduction (PCA)", "Data pipelines"], "from sklearn.decomposition import PCA\nPCA(2).fit_transform(X)")
+      },
+        [["Mean vs median?", "The median resists outliers; the mean does not."], ["What is a p-value?", "The probability of results at least this extreme if the null hypothesis is true."], ["How do you handle missing values?", "Drop, impute (mean/median/model) or flag them, depending on the cause."]],
+        [["Which library holds DataFrames?", ["NumPy", "pandas", "Flask", "Pillow"], 1, "pandas."], ["Correlation range is?", ["0 to 1", "-1 to 1", "0 to 100", "-∞ to ∞"], 1, "Pearson r lies in [-1, 1]."], ["PCA is used to?", ["Reduce dimensions", "Sort rows", "Join tables", "Encrypt data"], 0, "Dimensionality reduction."]],
+        ["Clean a messy CSV and plot a histogram.", "Find the correlation between two columns.", "Run a t-test on two groups."]),
+      T("web", "Web Development", "🕸️", {
+        Beginner: L("Websites are built with HTML for structure, CSS for style and JavaScript for behaviour.", ["HTML tags", "CSS selectors, flexbox", "JS variables, DOM", "Forms"], "<button onclick=\"alert('hi')\">Click</button>"),
+        Intermediate: L("React and REST APIs power modern single-page apps.", ["React components, state", "fetch and JSON", "REST verbs", "Responsive design"], "const [n,setN]=useState(0);\n<button onClick={()=>setN(n+1)}>{n}</button>"),
+        Advanced: L("Auth, performance and deployment make a site production-ready.", ["JWT, OAuth2", "Caching, lazy loading", "CORS, CSRF", "Docker and CI"], "@GetMapping(\"/api/jobs\")\npublic List<Job> all(){ return svc.findAll(); }")
+      },
+        [["Box model?", "Content, padding, border and margin around every element."], ["PUT vs PATCH?", "PUT replaces a resource; PATCH updates part of it."], ["What is CORS?", "A browser rule limiting cross-origin requests unless the server allows them."]],
+        [["Which tag is semantic?", ["<div>", "<article>", "<b>", "<span>"], 1, "<article> describes meaning."], ["Status 404 means?", ["Server error", "Not found", "OK", "Forbidden"], 1, "Resource not found."], ["useState is a?", ["React hook", "CSS rule", "SQL clause", "HTTP verb"], 0, "A React hook."]],
+        ["Build a responsive card grid.", "Create a todo list with React.", "Call a public API and render the results."]),
+      T("cloud", "Cloud Computing", "☁️", {
+        Beginner: L("Cloud computing rents computing power, storage and services over the internet, paying for what you use.", ["IaaS, PaaS, SaaS", "Regions and zones", "Virtual machines", "Object storage"], "aws s3 cp notes.pdf s3://my-bucket/"),
+        Intermediate: L("Containers and managed databases make apps portable and easy to scale.", ["Docker images", "Load balancers, autoscaling", "IAM roles", "Serverless functions"], "FROM eclipse-temurin:17\nCOPY app.jar /app.jar\nCMD [\"java\",\"-jar\",\"/app.jar\"]"),
+        Advanced: L("Kubernetes, infrastructure as code and cost control run production systems.", ["Kubernetes pods, services", "Terraform", "High availability", "FinOps"], "kubectl scale deploy web --replicas=3")
+      },
+        [["IaaS vs PaaS vs SaaS?", "Raw infrastructure, a managed platform for code, and finished software."], ["What is autoscaling?", "Adding or removing instances automatically as load changes."], ["What is serverless?", "You deploy functions; the provider runs and scales them, billing per use."]],
+        [["S3 is?", ["Object storage", "Database", "Network", "Compiler"], 0, "Simple Storage Service."], ["Docker packages?", ["Hardware", "App and dependencies", "Network", "Firewall"], 1, "A container image."], ["Least privilege means?", ["Max access", "Only needed access", "No users", "Root for all"], 1, "Grant only required permissions."]],
+        ["Containerise a Spring Boot app.", "Host a static site on object storage.", "Draw a 3-tier cloud architecture."]),
+      T("cyber", "Cybersecurity", "🛡️", {
+        Beginner: L("Cybersecurity protects systems and data. The CIA triad: confidentiality, integrity, availability.", ["Passwords and 2FA", "Phishing", "Malware types", "Firewalls"], "Never reuse passwords; use a password manager."),
+        Intermediate: L("Learn how common web attacks work so you can prevent them.", ["SQL injection", "XSS, CSRF", "Hashing (BCrypt)", "HTTPS and certificates"], "// safe: parameterised query\nps=con.prepareStatement(\"SELECT * FROM u WHERE id=?\");"),
+        Advanced: L("Defence in depth, threat modelling and incident response make systems resilient.", ["Threat modelling (STRIDE)", "Zero trust", "Encryption: AES, RSA", "SIEM and logging"], "hash = BCrypt.hashpw(pw, BCrypt.gensalt(12))")
+      },
+        [["Hashing vs encryption?", "Hashing is one-way; encryption is reversible with a key."], ["How do you stop SQL injection?", "Use parameterised queries and validate input."], ["What is phishing?", "Tricking people into revealing credentials via fake messages or sites."]],
+        [["CIA's 'I' means?", ["Identity", "Integrity", "Internet", "Isolation"], 1, "Integrity."], ["Safe password storage uses?", ["Plain text", "BCrypt hash", "Base64", "MD5 only"], 1, "A salted slow hash."], ["XSS injects?", ["SQL", "Scripts into pages", "Packets", "Files"], 1, "Malicious scripts run in the browser."]],
+        ["Spot the vulnerability in a login query.", "Write a regex to flag suspicious URLs.", "List controls for a small web app."])
+    );
+    /* ---------- core helpers ---------- */
+    const $ = (s, r = document) => r.querySelector(s);
+    const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+    const lsGet = (k, d) => { try { const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v) } catch (e) { return d } };
+    const lsSet = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)) } catch (e) { } };
+    const view = $("#view"), navEl = $("#nav");
+    let toastT; function toast(m) { const t = $("#toast"); t.textContent = m; t.hidden = false; clearTimeout(toastT); toastT = setTimeout(() => t.hidden = true, 2400) }
+    let C = JSON.parse(JSON.stringify(DEFAULTS));
+    let ctx = { db: null, user: null, sample: null, downloads: null, uid: null, isAdmin: false };
+    const ROUTES = [["home", "Home"], ["learn", "Learn"], ["games", "Games"], ["calc", "Calculators"], ["projects", "Projects"], ["profile", "Profile"], ["certs", "Certifications"], ["exp", "Experience"]];
+    function link(s, u, t) { return u ? `<a href="${esc(u)}" target="_blank" rel="noopener noreferrer">${t}</a>` : `<span class="muted" title="Add this link in Admin">${t} (not set)</span>` }
+    function safeUrl(u) { return /^https?:\/\//i.test(u || "") ? u : "" }
+    function csv(s) { return String(s || "").split(",").map(x => x.trim()).filter(Boolean) }
+    function chips(s, cls = "") { return `<div class="chips">${csv(s).map(x => `<span class="chip ${cls}">${esc(x)}</span>`).join("")}</div>` }
+
+    /* ---------- navigation ---------- */
+    function drawNav() {
+      const cur = (location.hash || "#home").slice(1).split("/")[0];
+      const r = [...ROUTES]; if (ctx.isAdmin) r.push(["admin", "Admin"]);
+      navEl.innerHTML = `<span class="brand"><i></i>Sirisha portfolio</span>` + r.map(([id, n]) => `<a href="#${id}" class="${cur === id ? "on" : ""}">${n}</a>`).join("");
+    }
+    function route() {
+      const parts = (location.hash || "#home").slice(1).split("/"); const id = parts[0] || "home";
+      stopGame(); drawNav();
+      const fn = { home: vHome, learn: vLearn, games: vGames, calc: vCalc, projects: vProjects, profile: vProfile, certs: vCerts, exp: vExp, admin: vAdmin }[id] || vHome;
+      fn(parts.slice(1)); window.scrollTo(0, 0);
+    }
+    window.addEventListener("hashchange", route);
+    document.addEventListener("mousemove", e => {
+      const c = e.target.closest && e.target.closest(".tilt"); if (!c) return;
+      const r = c.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
+      c.style.transform = `perspective(800px) rotateY(${x * 10}deg) rotateX(${-y * 10}deg) translateY(-3px)`;
+    });
+    document.addEventListener("mouseout", e => { const c = e.target.closest && e.target.closest(".tilt"); if (c && !c.contains(e.relatedTarget)) c.style.transform = "" });
+
+    /* ---------- home ---------- */
+    function vHome() {
+      const p = C.profile, feat = C.projects.slice(0, 3);
+      const done = lsGet("learnDone", {}); const doneN = Object.keys(done).length;
+      const quick = [["learn", "📚", "Learn", "16 CS topics, 3 levels"], ["games", "🎮", "Games", "Quizzes, puzzles, leaderboard"], ["calc", "🧮", "Calculators", "Scientific, programmer, CGPA"], ["projects", "🚀", "Projects", "Filter by tech and category"], ["profile", "👤", "Profile", "About me and resume"], ["certs", "🏅", "Certifications", "Credentials and links"], ["exp", "💼", "Experience", "Internships and roles"], ["ask", "✦", "AI Assistant", "Ask any CS question"]];
+      view.innerHTML = `
+  <section class="glass hero"><div><div class="eyebrow">Welcome</div>
+   <h1>Hi, I'm <span class="grad">${esc(p.nick || p.name)}</span>.</h1>
+   <p class="muted" style="font-size:1.05rem;margin-top:10px">${esc(p.title)}</p><p>${esc(p.intro)}</p>
+   <div class="row"><a class="btn pri" href="#projects" style="text-decoration:none">View projects</a><a class="btn" href="#learn" style="text-decoration:none">Start learning</a><button class="btn" type="button" id="hAsk">✦ Ask the AI</button></div></div>
+   <div class="avatar"><div style="${p.photo ? `background-image:url('${esc(p.photo)}')` : ""}">${p.photo ? "" : esc((p.nick || p.name || "?")[0])}</div></div></section>
+  <div class="sec-head"><h2>Quick access</h2></div>
+  <div class="grid g4">${quick.map(q => `<a href="#${q[0] === "ask" ? "home" : q[0]}" ${q[0] === "ask" ? 'id="qAsk"' : ""} class="glass pad tilt" style="text-decoration:none;color:inherit"><div style="font-size:1.8rem">${q[1]}</div><h3>${q[2]}</h3><div class="muted" style="font-size:.85rem">${q[3]}</div></a>`).join("")}</div>
+  <div class="sec-head"><h2>Featured projects</h2><a href="#projects">All projects →</a></div>
+  <div class="grid g3">${feat.map(projCard).join("")}</div>
+  <div class="grid g2" style="margin-top:34px">
+   <section class="glass pad"><h2>Technical skills</h2>${chips(p.skills)}<h3 style="margin-top:18px">Areas of interest</h3>${chips(p.interests, "on")}</section>
+   <section class="glass pad"><h2>Recent achievements</h2><div class="tl">
+    <div><b>Full Stack Java internship</b><div class="muted">The Developers Arena</div></div>
+    <div><b>${C.projects.length} projects built</b><div class="muted">Spring Boot, React, YOLOv8, NLP</div></div>
+    <div><b>Daily DSA practice in Python</b><div class="muted">Placement preparation</div></div>
+    <div><b>${doneN} of ${TOPICS.length} learning topics reviewed</b><div class="muted">Your progress in this hub</div></div></div></section></div>
+`;
+      $("#hAsk").onclick = openChat; $("#qAsk").onclick = e => { e.preventDefault(); openChat() };
+    }
+    function projCard(pr) {
+      return `<a href="#projects/${esc(pr.id)}" class="glass pad tilt" style="text-decoration:none;color:inherit;display:block"><div class="thumb" style="${pr.img ? `background-image:url('${esc(pr.img)}')` : ""}">${pr.img ? "" : esc(pr.title.split(/\s+/).map(w => w[0]).slice(0, 2).join(""))}</div><span class="chip">${esc(pr.cat)}</span><h3 style="margin:8px 0 4px">${esc(pr.title)}</h3><p class="muted" style="font-size:.88rem">${esc(pr.desc)}</p>${chips(pr.tech)}</a>`;
+    }
+
+    /* ---------- learn ---------- */
+    function vLearn(a) {
+      const id = a[0]; const t = TOPICS.find(x => x.id === id);
+      if (!t) {
+        const done = lsGet("learnDone", {});
+        view.innerHTML = `<div class="sec-head"><div><div class="eyebrow">Learning hub</div><h2>Computer Science topics</h2><div class="muted">Each topic has beginner, intermediate and advanced notes, code, interview questions, a quiz and practice.</div></div></div>
+    <div class="grid g4">${TOPICS.map(t => `<a href="#learn/${t.id}" class="glass pad tilt" style="text-decoration:none;color:inherit"><div style="font-size:1.8rem">${t.ic}</div><h3>${esc(t.name)}</h3>${done[t.id] != null ? `<span class="chip on">Quiz ${done[t.id]}/${t.mcq.length}</span>` : ""}</a>`).join("")}</div>`; return
+      }
+      let lv = lsGet("lv", "Beginner"), tab = "learn";
+      const draw = () => {
+        const d = t.lv[lv];
+        let body = "";
+        if (tab === "learn") body = `<div class="glass pad"><span class="lvl ${lv}">${lv}</span><p style="margin-top:10px">${esc(d.txt)}</p><h3>Important concepts</h3><ul>${d.pts.map(x => `<li>${esc(x)}</li>`).join("")}</ul><h3>Code example</h3><pre>${esc(d.code)}</pre></div>`;
+        if (tab === "iq") body = `<div class="grid">${t.iq.map(q => `<details class="glass pad"><summary><b>${esc(q[0])}</b></summary><p style="margin-top:8px" class="muted">${esc(q[1])}</p></details>`).join("")}</div>`;
+        if (tab === "quiz") body = `<div id="qz"></div>`;
+        if (tab === "ex") body = `<div class="glass pad"><h3>Practice exercises</h3><ol>${t.ex.map(x => `<li style="margin:8px 0">${esc(x)}</li>`).join("")}</ol><p class="muted">Try each one in your editor, then ask the AI assistant to review your solution.</p></div>`;
+        view.innerHTML = `<a href="#learn">← All topics</a><div class="sec-head"><h2>${t.ic} ${esc(t.name)}</h2></div>
+    <div class="tabs" id="lt">${["Beginner", "Intermediate", "Advanced"].map(l => `<button data-lv="${l}" class="${l === lv ? "on" : ""}">${l}</button>`).join("")}</div>
+    <div class="tabs" id="tt">${[["learn", "Learn"], ["iq", "Interview"], ["quiz", "Quiz"], ["ex", "Practice"]].map(([k, n]) => `<button data-t="${k}" class="${k === tab ? "on" : ""}">${n}</button>`).join("")}</div>${body}`;
+        $("#lt").onclick = e => { const b = e.target.closest("button"); if (b) { lv = b.dataset.lv; lsSet("lv", lv); draw() } };
+        $("#tt").onclick = e => { const b = e.target.closest("button"); if (b) { tab = b.dataset.t; draw() } };
+        if (tab === "quiz") topicQuiz(t);
+      };
+      draw();
+    }
+    function topicQuiz(t) {
+      const box = $("#qz"); let i = 0, s = 0;
+      const show = () => {
+        if (i >= t.mcq.length) {
+          const d = lsGet("learnDone", {}); d[t.id] = Math.max(d[t.id] ?? 0, s); lsSet("learnDone", d);
+          box.innerHTML = `<div class="glass pad"><h3>Score: ${s} / ${t.mcq.length}</h3><button class="btn pri" id="rq" type="button">Retake</button></div>`; $("#rq").onclick = () => { i = 0; s = 0; show() }; return
+        }
+        const q = t.mcq[i];
+        box.innerHTML = `<div class="glass pad"><div class="muted">Question ${i + 1} of ${t.mcq.length}</div><h3 style="margin:6px 0 10px">${esc(q[0])}</h3>${q[1].map((o, k) => `<button class="opt" data-k="${k}" type="button">${esc(o)}</button>`).join("")}<div id="why" class="muted"></div></div>`;
+        box.querySelectorAll(".opt").forEach(b => b.onclick = () => {
+          const k = +b.dataset.k; box.querySelectorAll(".opt").forEach(x => x.disabled = true);
+          box.querySelectorAll(".opt")[q[2]].classList.add("ok"); if (k !== q[2]) b.classList.add("bad"); else s++;
+          $("#why").innerHTML = esc(q[3]) + ` <button class="btn sm pri" id="nx" type="button">Next</button>`; $("#nx").onclick = () => { i++; show() };
+        });
+      }; show();
+    }
+    /* ---------- games ---------- */
+    let gTimer = null; function stopGame() { clearInterval(gTimer); gTimer = null }
+    const Q = (p, code, o, a, w) => ({ p, code, o, a, w });
+    const BANKS = {
+      mcq: {
+        name: "CS MCQ Challenge", ic: "🎯", q: [
+          Q("Time complexity of binary search?", "", ["O(n)", "O(log n)", "O(n²)", "O(1)"], 1, "It halves the range each step."),
+          Q("Which is NOT an OOP pillar?", "", ["Encapsulation", "Compilation", "Polymorphism", "Inheritance"], 1, "Compilation is a build step."),
+          Q("Which SQL clause filters groups?", "", ["WHERE", "HAVING", "ORDER BY", "LIMIT"], 1, "HAVING filters after GROUP BY."),
+          Q("Which protocol is connectionless?", "", ["TCP", "UDP", "HTTP", "FTP"], 1, "UDP sends datagrams without a connection."),
+          Q("A stack that is full and receives a push causes?", "", ["Underflow", "Overflow", "Deadlock", "Segfault always"], 1, "Overflow."),
+          Q("Which sorting algorithm has O(n log n) worst case?", "", ["Quick sort", "Bubble sort", "Merge sort", "Insertion sort"], 2, "Merge sort is always O(n log n).")]
+      },
+      out: {
+        name: "Guess the Output", ic: "🔮", q: [
+          Q("What prints?", "print(2 ** 3)", ["6", "8", "9", "23"], 1, "** is exponent: 2³ = 8."),
+          Q("What prints?", "x = [1,2,3]\nprint(x[-1])", ["1", "3", "Error", "[3]"], 1, "Index -1 is the last item."),
+          Q("What prints?", "print(len('hello'[1:3]))", ["2", "3", "5", "1"], 0, "'hello'[1:3] is 'el'."),
+          Q("What prints?", "int a = 5;\nSystem.out.println(a++ + ++a);", ["10", "11", "12", "13"], 2, "5 + 7 = 12."),
+          Q("What prints?", "print([i*i for i in range(4)])", ["[0,1,4,9]", "[1,4,9,16]", "[0,1,2,3]", "Error"], 0, "Squares of 0..3."),
+          Q("What prints?", "a = 'ab'\nprint(a * 2 + 'c')", ["abab c", "ababc", "ab2c", "Error"], 1, "String repeat then concat.")]
+      },
+      err: {
+        name: "Find the Error", ic: "🔎", q: [
+          Q("Which line has the bug?", "1 def add(a, b)\n2     return a + b", ["Line 1: missing colon", "Line 2: wrong op", "No error", "Line 2 indentation"], 0, "Python def needs a colon."),
+          Q("Which line has the bug?", "1 for i in range(3):\n2 print(i)", ["Line 1", "Line 2: needs indentation", "No error", "Both"], 1, "The loop body must be indented."),
+          Q("What is wrong?", "String s = 'hello';", ["Missing semicolon", "Single quotes for a String", "Wrong type", "Nothing"], 1, "Java strings use double quotes."),
+          Q("What is wrong?", "SELECT * FORM users;", ["Typo: FORM", "Missing WHERE", "Wrong table", "Nothing"], 0, "It should be FROM."),
+          Q("What is wrong?", "int arr[3] = {1,2,3};\nprintf(\"%d\", arr[3]);", ["Wrong format", "Index out of bounds", "Missing include", "Nothing"], 1, "Valid indexes are 0 to 2."),
+          Q("What is wrong?", "if (x = 5) { ... }", ["Assigns instead of compares", "Missing else", "Missing brace", "Nothing"], 0, "Use == to compare.")]
+      },
+      dbg: {
+        name: "Debugging Challenge", ic: "🐞", q: [
+          Q("This should return the max of a list but returns 0. Why?", "def mx(a):\n    m = 0\n    for x in a:\n        if x > m: m = x\n    return m\nprint(mx([-5,-2]))", ["Starts at 0; fails for negatives", "Wrong loop", "Missing return", "None"], 0, "Initialise with a[0]."),
+          Q("Infinite loop. Why?", "i = 0\nwhile i < 5:\n    print(i)", ["i never changes", "Wrong operator", "Needs break", "Print is wrong"], 0, "Add i += 1."),
+          Q("Why NullPointerException?", "String s = null;\nSystem.out.println(s.length());", ["s is null", "Wrong method", "Missing import", "Syntax"], 0, "You cannot call a method on null."),
+          Q("Why does this list change unexpectedly?", "def add(x, l=[]):\n    l.append(x); return l\nadd(1); print(add(2))", ["Mutable default argument is shared", "Wrong append", "Missing return", "None"], 0, "The default list is created once; it prints [1, 2]."),
+          Q("Off-by-one: it should print 1..5.", "for i in range(1,5):\n    print(i)", ["range stops before 5", "Wrong start", "Missing colon", "None"], 0, "Use range(1,6)."),
+          Q("Why is the result 0.30000000000000004?", "print(0.1 + 0.2)", ["Binary floating point", "Python bug", "Wrong operator", "Overflow"], 0, "0.1 and 0.2 cannot be stored exactly.")]
+      },
+      logic: {
+        name: "Logical Reasoning", ic: "🧩", q: [
+          Q("Next in the series: 2, 4, 8, 16, ?", "", ["24", "32", "30", "18"], 1, "Each term doubles."),
+          Q("If all bytes are data and some data is text, then:", "", ["All bytes are text", "Some bytes may be text", "No byte is text", "All text is bytes"], 1, "Only 'some' can be concluded as possible."),
+          Q("Binary of 5 + 3 equals?", "", ["1000", "0111", "1010", "1100"], 0, "8 = 1000."),
+          Q("A is taller than B, B is taller than C. Who is shortest?", "", ["A", "B", "C", "Cannot tell"], 2, "C is shortest."),
+          Q("Next: 1, 1, 2, 3, 5, 8, ?", "", ["11", "12", "13", "15"], 2, "Fibonacci: 5+8 = 13."),
+          Q("How many bits in 3 bytes?", "", ["12", "24", "32", "8"], 1, "3 × 8 = 24.")]
+      }
+    };
+    const PUZZLES = [
+      { name: "Reverse a string", lines: ["def rev(s):", "    out = ''", "    for ch in s:", "        out = ch + out", "    return out"] },
+      { name: "Factorial", lines: ["def fact(n):", "    if n <= 1:", "        return 1", "    return n * fact(n-1)"] },
+      { name: "Count vowels", lines: ["def vowels(s):", "    c = 0", "    for ch in s.lower():", "        if ch in 'aeiou':", "            c += 1", "    return c"] }];
+    function vGames(a) {
+      const g = a[0];
+      if (g === "board") return vBoard(a[1] || "mcq");
+      if (BANKS[g]) return runQuiz(g);
+      if (g === "memory") return runMemory();
+      if (g === "puzzle") return runPuzzle();
+      const cards = [...Object.entries(BANKS).map(([k, b]) => [k, b.ic, b.name, "Timed, 3 levels"]), ["memory", "🃏", "Memory Match", "Flip and match tech pairs"], ["puzzle", "🧱", "Coding Puzzle", "Put code lines in order"]];
+      view.innerHTML = `<div class="sec-head"><div><div class="eyebrow">Arcade</div><h2>Games</h2><div class="muted">Beat the clock, build a score and climb the leaderboard.</div></div><a class="btn pri" href="#games/board" style="text-decoration:none">🏆 Leaderboard</a></div>
+  <div class="glass pad" style="margin-bottom:16px"><label for="nick" style="margin-top:0">Your leaderboard name</label><input id="nick" maxlength="20" value="${esc(lsGet("nick", ""))}" placeholder="Enter a nickname"></div>
+  <div class="grid g3">${cards.map(c => `<a href="#games/${c[0]}" class="glass pad tilt" style="text-decoration:none;color:inherit"><div style="font-size:2rem">${c[1]}</div><h3>${c[2]}</h3><div class="muted">${c[3]}</div></a>`).join("")}</div>`;
+      $("#nick").oninput = e => lsSet("nick", e.target.value.trim());
+    }
+    async function saveScore(game, score) {
+      const nick = lsGet("nick", "") || "Player"; const best = lsGet("best", {});
+      if (score > (best[game] || 0)) { best[game] = score; lsSet("best", best) }
+      if (!ctx.db) return; const id = (ctx.uid || "guest") + "_" + game;
+      try {
+        const ref = ctx.db.doc("scores/" + id); const s = await ref.get();
+        if (!s.exists || s.data().score < score) await ref.set({ game, score, name: nick, uid: ctx.uid || "", t: Date.now() });
+      } catch (e) { }
+    }
+    function runQuiz(key) {
+      const B = BANKS[key]; let i = 0, score = 0, left = 20, streak = 0;
+      const show = () => {
+        stopGame();
+        if (i >= B.q.length) { saveScore(key, score); view.innerHTML = `<div class="glass pad" style="text-align:center"><div style="font-size:2.4rem">🏁</div><h2>${B.name} complete</h2><h1 class="grad">${score} pts</h1><p class="muted">Best: ${lsGet("best", {})[key] || score}</p><div class="row" style="justify-content:center"><button class="btn pri" id="again" type="button">Play again</button><a class="btn" href="#games/board/${key}" style="text-decoration:none">Leaderboard</a><a class="btn" href="#games" style="text-decoration:none">All games</a></div></div>`; $("#again").onclick = () => { i = 0; score = 0; streak = 0; show() }; return }
+        const q = B.q[i]; left = 20; const lvl = Math.floor(i / 2) + 1;
+        view.innerHTML = `<a href="#games">← Games</a><div class="glass pad" style="margin-top:10px"><div class="row" style="justify-content:space-between"><span class="chip on">Level ${lvl}</span><span class="muted">Q ${i + 1}/${B.q.length}</span><span class="timer" id="tm">20s</span><span>Score <b>${score}</b>${streak > 1 ? ` 🔥${streak}` : ""}</span></div>
+    <h3 style="margin:14px 0 6px">${esc(q.p)}</h3>${q.code ? `<pre>${esc(q.code)}</pre>` : ""}${q.o.map((o, k) => `<button class="opt" data-k="${k}" type="button">${esc(o)}</button>`).join("")}<div id="fb" class="muted"></div></div>`;
+        const lock = k => {
+          stopGame(); const os = view.querySelectorAll(".opt"); os.forEach(x => x.disabled = true); os[q.a].classList.add("ok");
+          if (k === q.a) { streak++; score += 10 * lvl + Math.max(0, left) + (streak > 2 ? 5 : 0) } else { streak = 0; if (k >= 0) os[k].classList.add("bad") }
+          $("#fb").innerHTML = (k === q.a ? "Correct. " : k < 0 ? "Time is up. " : "Not quite. ") + esc(q.w) + ` <button class="btn sm pri" id="nx" type="button">${i + 1 >= B.q.length ? "Finish" : "Next"}</button>`; $("#nx").onclick = () => { i++; show() }
+        };
+        view.querySelectorAll(".opt").forEach(b => b.onclick = () => lock(+b.dataset.k));
+        gTimer = setInterval(() => { left--; const t = $("#tm"); if (t) t.textContent = left + "s"; if (left <= 0) lock(-1) }, 1000);
+      }; show();
+    }
+    function runMemory() {
+      const lv = lsGet("memLv", 1); const names = ["HTML", "CSS", "JS", "SQL", "C++", "Java", "Py", "Git", "Go", "Rust"].slice(0, 4 + lv * 2);
+      let cards = [...names, ...names].map((n, i) => ({ n, i, s: Math.random() })).sort((a, b) => a.s - b.s);
+      let open = [], found = 0, moves = 0, sec = 0, lock = false;
+      view.innerHTML = `<a href="#games">← Games</a><div class="glass pad" style="margin-top:10px"><div class="row" style="justify-content:space-between"><span class="chip on">Level ${lv}</span><span>Moves <b id="mv">0</b></span><span class="timer" id="tm">0s</span></div><div class="tabs" id="ml">${[1, 2, 3].map(l => `<button data-l="${l}" class="${l === lv ? "on" : ""}">Level ${l}</button>`).join("")}</div>
+  <div class="mem" id="mem" style="margin-top:10px">${cards.map((c, k) => `<button class="memcell" data-k="${k}" type="button" aria-label="Card ${k + 1}">?</button>`).join("")}</div></div>`;
+      $("#ml").onclick = e => { const b = e.target.closest("button"); if (b) { lsSet("memLv", +b.dataset.l); runMemory() } };
+      gTimer = setInterval(() => { sec++; $("#tm").textContent = sec + "s" }, 1000);
+      $("#mem").onclick = e => {
+        const b = e.target.closest(".memcell"); if (!b || lock || b.classList.contains("up") || b.classList.contains("done")) return;
+        const c = cards[+b.dataset.k]; b.classList.add("up"); b.textContent = c.n; open.push(b);
+        if (open.length === 2) {
+          moves++; $("#mv").textContent = moves; const [x, y] = open;
+          if (cards[+x.dataset.k].n === cards[+y.dataset.k].n) {
+            x.classList.add("done"); y.classList.add("done"); open = []; found++;
+            if (found === names.length) { stopGame(); const sc = Math.max(50, lv * 500 - moves * 10 - sec * 2); saveScore("memory", sc); toast("Cleared! Score " + sc); view.insertAdjacentHTML("beforeend", `<div class="glass pad" style="margin-top:12px"><h3>Cleared in ${moves} moves and ${sec}s. Score ${sc}.</h3><a class="btn pri" href="#games/board/memory" style="text-decoration:none">Leaderboard</a></div>`) }
+          }
+          else { lock = true; setTimeout(() => { open.forEach(o => { o.classList.remove("up"); o.textContent = "?" }); open = []; lock = false }, 800) }
+        }
+      };
+    }
+    function runPuzzle() {
+      let n = 0, score = 0;
+      const show = () => {
+        if (n >= PUZZLES.length) { saveScore("puzzle", score); view.innerHTML = `<div class="glass pad" style="text-align:center"><h2>All puzzles solved</h2><h1 class="grad">${score} pts</h1><a class="btn pri" href="#games/board/puzzle" style="text-decoration:none">Leaderboard</a> <a class="btn" href="#games" style="text-decoration:none">Games</a></div>`; return }
+        const P = PUZZLES[n]; const order = P.lines.map((l, i) => ({ l, i, s: Math.random() })).sort((a, b) => a.s - b.s); let pick = [], mist = 0;
+        view.innerHTML = `<a href="#games">← Games</a><div class="glass pad" style="margin-top:10px"><span class="chip on">Puzzle ${n + 1}/${PUZZLES.length}</span><h3 style="margin:10px 0">${esc(P.name)}: tap the lines in the correct order</h3><div id="pk"></div><div id="pl"></div><div id="pf" class="muted"></div></div>`;
+        const draw = () => {
+          $("#pk").innerHTML = `<pre style="min-height:60px">${esc(pick.map(o => o.l).join("\n"))}</pre>`;
+          $("#pl").innerHTML = order.filter(o => !pick.includes(o)).map(o => `<button class="opt mono" data-i="${o.i}" type="button" style="white-space:pre">${esc(o.l)}</button>`).join("");
+          $("#pl").querySelectorAll(".opt").forEach(b => b.onclick = () => {
+            const o = order.find(x => x.i == b.dataset.i);
+            if (o.i === pick.length) { pick.push(o); draw(); if (pick.length === P.lines.length) { score += Math.max(10, 100 - mist * 20); $("#pf").innerHTML = `Solved. <button class="btn sm pri" id="nx" type="button">Next</button>`; $("#nx").onclick = () => { n++; show() } } }
+            else { mist++; toast("Not the next line") }
+          })
+        };
+        draw();
+      }; show();
+    }
+    async function vBoard(g) {
+      view.innerHTML = `<a href="#games">← Games</a><div class="sec-head"><h2>🏆 Leaderboard</h2></div><div class="tabs" id="bt">${[...Object.keys(BANKS), "memory", "puzzle"].map(k => `<button data-g="${k}" class="${k === g ? "on" : ""}">${esc(BANKS[k] ? BANKS[k].name : k === "memory" ? "Memory Match" : "Coding Puzzle")}</button>`).join("")}</div><div class="glass pad scroll" id="bd"><span class="muted">Loading…</span></div>`;
+      $("#bt").onclick = e => { const b = e.target.closest("button"); if (b) location.hash = "#games/board/" + b.dataset.g };
+      const bd = $("#bd"); let rows = [];
+      if (ctx.db) { try { const s = await ctx.db.collection("scores").where("game", "==", g).orderBy("score", "desc").limit(20).get(); rows = s.docs.map(d => d.data()) } catch (e) { } }
+      if (!rows.length && lsGet("best", {})[g]) rows = [{ name: (lsGet("nick", "") || "You") + " (this device)", score: lsGet("best", {})[g] }];
+      bd.innerHTML = rows.length ? `<table><tr><th>#</th><th>Player</th><th>Score</th></tr>${rows.map((r, i) => `<tr><td>${i + 1}</td><td>${esc(r.name)}</td><td>${esc(r.score)}</td></tr>`).join("")}</table>` : `<p class="muted">No scores yet. Play a round to set the first one.</p>`;
+    }
+    /* ---------- calculators ---------- */
+    function evalExpr(src, deg) {
+      const s = src.replace(/\s+/g, "").replace(/×/g, "*").replace(/÷/g, "/").replace(/π/g, "pi").replace(/√/g, "sqrt");
+      let i = 0; const fail = () => { throw new Error("Invalid expression") };
+      const peek = () => s[i];
+      const toR = x => deg ? x * Math.PI / 180 : x;
+      const fns = { sin: x => Math.sin(toR(x)), cos: x => Math.cos(toR(x)), tan: x => Math.tan(toR(x)), asin: x => deg ? Math.asin(x) * 180 / Math.PI : Math.asin(x), acos: x => deg ? Math.acos(x) * 180 / Math.PI : Math.acos(x), atan: x => deg ? Math.atan(x) * 180 / Math.PI : Math.atan(x), log: Math.log10, ln: Math.log, sqrt: Math.sqrt, abs: Math.abs, exp: Math.exp, cbrt: Math.cbrt };
+      function expr() { let v = term(); while (peek() === "+" || peek() === "-") { const o = s[i++]; const r = term(); v = o === "+" ? v + r : v - r } return v }
+      function term() { let v = pow(); while (peek() === "*" || peek() === "/" || peek() === "%") { const o = s[i++]; const r = pow(); v = o === "*" ? v * r : o === "/" ? v / r : v % r } return v }
+      function pow() { const b = unary(); if (peek() === "^") { i++; return Math.pow(b, pow()) } return b }
+      function unary() { if (peek() === "-") { i++; return -unary() } if (peek() === "+") { i++; return unary() } return post() }
+      function post() { let v = prim(); while (peek() === "!") { i++; if (v < 0 || v > 170 || !Number.isInteger(v)) fail(); let f = 1; for (let k = 2; k <= v; k++)f *= k; v = f } return v }
+      function prim() {
+        if (peek() === "(") { i++; const v = expr(); if (peek() !== ")") fail(); i++; return v }
+        let m = /^\d*\.?\d+(e[+-]?\d+)?/i.exec(s.slice(i));
+        if (m) { i += m[0].length; return parseFloat(m[0]) }
+        m = /^[a-z]+/.exec(s.slice(i));
+        if (m) {
+          const n = m[0]; i += n.length; if (n === "pi") return Math.PI; if (n === "e") return Math.E;
+          if (fns[n] && peek() === "(") { i++; const v = expr(); if (peek() !== ")") fail(); i++; return fns[n](v) }
+        }
+        fail();
+      }
+      const r = expr(); if (i < s.length) fail(); return r;
+    }
+    const fmt = n => { if (!isFinite(n)) return "Error"; const r = Math.round(n * 1e10) / 1e10; return String(r) };
+    function exprCalc(sci) {
+      const keys = sci ? [["sin(", "sin"], ["cos(", "cos"], ["tan(", "tan"], ["^", "xʸ"], ["log(", "log"], ["ln(", "ln"], ["√(", "√"], ["!", "n!"], ["π", "π"], ["e", "e"], ["(", "("], [")", ")"]] : [];
+      const base = [["C", "C"], ["⌫", "⌫"], ["%", "%"], ["÷", "÷"], ["7"], ["8"], ["9"], ["×", "×"], ["4"], ["5"], ["6"], ["-", "−"], ["1"], ["2"], ["3"], ["+", "+"], ["0"], ["00"], ["."], ["=", "="]];
+      const el = document.createElement("div"); el.className = "calc glass pad"; if (sci) el.style.maxWidth = "460px";
+      el.innerHTML = `<div class="disp"><small id="hx"></small><span id="ex">0</span></div>${sci ? `<div class="row" style="margin-top:8px"><label style="margin:0">Angle</label><select id="ang" style="width:auto"><option value="1">Degrees</option><option value="0">Radians</option></select></div>` : ""}
+  ${sci ? `<div class="keys" style="grid-template-columns:repeat(4,1fr)">${keys.map(k => `<button class="op" data-k="${k[0]}" type="button">${k[1]}</button>`).join("")}</div>` : ""}
+  <div class="keys">${base.map(k => `<button class="${"÷×-+%".includes(k[0]) ? "op" : k[0] === "=" ? "eq" : ""}" data-k="${k[0]}" type="button">${k[1] || k[0]}</button>`).join("")}</div>`;
+      let ex = ""; const out = el.querySelector("#ex"), hx = el.querySelector("#hx");
+      const show = () => out.textContent = ex || "0";
+      const run = () => { try { const r = fmt(evalExpr(ex, el.querySelector("#ang")?.value !== "0")); hx.textContent = ex + " ="; ex = r === "Error" ? "" : r; out.textContent = r === "Error" ? "Error" : r } catch (e) { out.textContent = "Error"; ex = "" } };
+      el.onclick = e => {
+        const b = e.target.closest("[data-k]"); if (!b) return; const k = b.dataset.k;
+        if (k === "C") { ex = ""; hx.textContent = "" } else if (k === "⌫") ex = ex.slice(0, -1); else if (k === "=") return run(); else ex += k; show()
+      };
+      return el;
+    }
+    function baseCard(title, from, to, hint) {
+      const d = document.createElement("div"); d.className = "glass pad";
+      d.innerHTML = `<h3>${title}</h3><label for="">${hint}</label><input class="in" inputmode="text" autocomplete="off"><div class="mono" style="margin-top:12px;word-break:break-all;color:var(--cyan)" aria-live="polite"></div>`;
+      const re = { 2: /^[01]+$/, 8: /^[0-7]+$/, 10: /^\d+$/, 16: /^[0-9a-f]+$/i }[from]; const out = d.querySelector("div.mono"), inp = d.querySelector("input");
+      inp.id = "cv" + title.replace(/\W/g, ""); d.querySelector("label").htmlFor = inp.id;
+      inp.oninput = () => {
+        const v = inp.value.trim().replace(/^0[bx]/i, ""); if (!v) { out.textContent = ""; return }
+        if (!re.test(v)) { out.textContent = "Invalid " + hint.toLowerCase(); return }
+        const n = BigInt(from === 10 ? v : from === 2 ? "0b" + v : from === 8 ? "0o" + v : "0x" + v); out.textContent = n.toString(to).toUpperCase()
+      };
+      return d;
+    }
+    function progCalc() {
+      const d = document.createElement("div"); d.className = "glass pad";
+      d.innerHTML = `<h3>Programmer calculator</h3><div class="grid g3"><div><label for="pa">A</label><input id="pa" value="255"></div><div><label for="pb">B</label><input id="pb" value="15"></div><div><label for="pbase">Input base</label><select id="pbase"><option value="10">Decimal</option><option value="16">Hex</option><option value="2">Binary</option><option value="8">Octal</option></select></div></div>
+  <div class="tabs" id="pops">${["AND", "OR", "XOR", "NOT A", "A << B", "A >> B", "A + B", "A − B"].map((o, i) => `<button data-o="${i}" class="${i ? "" : "on"}">${o}</button>`).join("")}</div><div class="scroll"><table id="pt"></table></div>`;
+      let op = 0; const parse = (v, b) => { v = v.trim(); const p = { 10: "", 16: "0x", 2: "0b", 8: "0o" }[b]; if (!v || !({ 10: /^-?\d+$/, 16: /^[0-9a-f]+$/i, 2: /^[01]+$/, 8: /^[0-7]+$/ }[b]).test(v)) return null; return v[0] === "-" ? -BigInt(p + v.slice(1)) : BigInt(p + v) };
+      const calc = () => {
+        const b = +d.querySelector("#pbase").value, A = parse(d.querySelector("#pa").value, b), B = parse(d.querySelector("#pb").value, b), t = d.querySelector("#pt");
+        if (A === null || (B === null && op !== 3)) { t.innerHTML = "<tr><td class='muted'>Enter valid numbers for the chosen base.</td></tr>"; return }
+        const sh = B === null ? 0n : (B < 0n || B > 64n ? 0n : B);
+        const r = [A & B, A | B, A ^ B, ~A, A << sh, A >> sh, A + B, A - B][op];
+        t.innerHTML = `<tr><th>Dec</th><td class="mono">${r}</td></tr><tr><th>Hex</th><td class="mono">${r < 0n ? "-" + (-r).toString(16).toUpperCase() : r.toString(16).toUpperCase()}</td></tr><tr><th>Bin</th><td class="mono">${r < 0n ? "-" + (-r).toString(2) : r.toString(2)}</td></tr><tr><th>Oct</th><td class="mono">${r < 0n ? "-" + (-r).toString(8) : r.toString(8)}</td></tr>`
+      };
+      d.oninput = calc; d.onchange = calc; d.querySelector("#pops").onclick = e => { const b = e.target.closest("button"); if (!b) return; op = +b.dataset.o; d.querySelectorAll("#pops button").forEach(x => x.classList.toggle("on", x === b)); calc() };
+      setTimeout(calc); return d;
+    }
+    function pctCalc() {
+      const d = document.createElement("div"); d.className = "glass pad";
+      d.innerHTML = `<h3>Percentage calculator</h3><div class="grid g3">
+  <div><b>X% of Y</b><label for="p1x">X (%)</label><input id="p1x" type="number" value="20"><label for="p1y">Y</label><input id="p1y" type="number" value="450"><p class="mono" id="r1" style="color:var(--cyan)"></p></div>
+  <div><b>X is what % of Y</b><label for="p2x">X</label><input id="p2x" type="number" value="45"><label for="p2y">Y</label><input id="p2y" type="number" value="60"><p class="mono" id="r2" style="color:var(--cyan)"></p></div>
+  <div><b>% change X → Y</b><label for="p3x">From X</label><input id="p3x" type="number" value="80"><label for="p3y">To Y</label><input id="p3y" type="number" value="100"><p class="mono" id="r3" style="color:var(--cyan)"></p></div></div>`;
+      const g = id => parseFloat(d.querySelector("#" + id).value);
+      const u = () => {
+        const s = (id, t) => d.querySelector("#" + id).textContent = t;
+        s("r1", isNaN(g("p1x") * g("p1y")) ? "—" : fmt(g("p1x") / 100 * g("p1y")));
+        s("r2", !g("p2y") ? "—" : fmt(g("p2x") / g("p2y") * 100) + " %");
+        s("r3", !g("p3x") ? "—" : fmt((g("p3y") - g("p3x")) / Math.abs(g("p3x")) * 100) + " %")
+      };
+      d.oninput = u; u(); return d;
+    }
+    function gpaCalc() {
+      const d = document.createElement("div"); d.className = "glass pad";
+      const row = (a, b) => `<div class="row" style="flex-wrap:nowrap;margin:6px 0"><input class="c" type="number" min="0" step="any" value="${a}" aria-label="Value 1" style="flex:1"><input class="g" type="number" min="0" step="any" value="${b}" aria-label="Value 2" style="flex:1"><button class="btn sm rm" type="button" aria-label="Remove row">✕</button></div>`;
+      d.innerHTML = `<h3>GPA / CGPA calculator</h3><div class="tabs" id="gm"><button class="on" data-m="gpa">Semester GPA</button><button data-m="cgpa">CGPA</button></div>
+  <p class="muted" id="gh"></p><div id="rows"></div><div class="row"><button class="btn sm" id="add" type="button">+ Add row</button></div>
+  <h2 class="grad" id="gres" style="margin-top:14px">—</h2><p class="muted" id="gp"></p>`;
+      let m = "gpa"; const rows = d.querySelector("#rows");
+      const reset = () => {
+        rows.innerHTML = m === "gpa" ? row(4, 9) + row(3, 8) + row(3, 10) + row(2, 7) : row(4, 8.5) + row(3, 8.2);
+        d.querySelector("#gh").textContent = m === "gpa" ? "Each row: credits, then grade point for that course (0–10)." : "Each row: credits of the semester, then that semester's GPA."; calc()
+      };
+      const calc = () => {
+        let tc = 0, tp = 0; rows.querySelectorAll(".row").forEach(r => { const c = parseFloat(r.querySelector(".c").value), g = parseFloat(r.querySelector(".g").value); if (c > 0 && g >= 0) { tc += c; tp += c * g } });
+        const v = tc ? tp / tc : null; d.querySelector("#gres").textContent = v == null ? "—" : (m === "gpa" ? "GPA " : "CGPA ") + v.toFixed(2);
+        d.querySelector("#gp").textContent = v == null ? "" : `Approx. percentage: ${(v * 9.5).toFixed(1)}% (CGPA × 9.5, a common 10-point convention; check your university's rule).`
+      };
+      d.querySelector("#gm").onclick = e => { const b = e.target.closest("button"); if (!b) return; m = b.dataset.m; d.querySelectorAll("#gm button").forEach(x => x.classList.toggle("on", x === b)); reset() };
+      d.querySelector("#add").onclick = () => { rows.insertAdjacentHTML("beforeend", row("", "")); };
+      rows.oninput = calc; rows.onclick = e => { if (e.target.classList.contains("rm")) { e.target.closest(".row").remove(); calc() } };
+      reset(); return d;
+    }
+    function vCalc(a) {
+      const tabs = [["basic", "Basic"], ["sci", "Scientific"], ["prog", "Programmer"], ["conv", "Converters"], ["pct", "Percentage"], ["gpa", "GPA / CGPA"]];
+      const cur = a[0] || "basic";
+      view.innerHTML = `<div class="sec-head"><div><div class="eyebrow">Toolbox</div><h2>Calculator hub</h2></div></div><div class="tabs">${tabs.map(t => `<button data-t="${t[0]}" class="${t[0] === cur ? "on" : ""}">${t[1]}</button>`).join("")}</div><div id="cb"></div>`;
+      view.querySelector(".tabs").onclick = e => { const b = e.target.closest("button"); if (b) location.hash = "#calc/" + b.dataset.t };
+      const box = $("#cb");
+      if (cur === "basic") box.append(exprCalc(false));
+      else if (cur === "sci") box.append(exprCalc(true));
+      else if (cur === "prog") box.append(progCalc());
+      else if (cur === "pct") box.append(pctCalc());
+      else if (cur === "gpa") box.append(gpaCalc());
+      else { box.className = "grid g2"; box.append(baseCard("Binary to Decimal", 2, 10, "Binary number"), baseCard("Decimal to Binary", 10, 2, "Decimal number"), baseCard("Decimal to Hex", 10, 16, "Decimal number"), baseCard("Hex to Decimal", 16, 10, "Hex number"), baseCard("Hex to Binary", 16, 2, "Hex number"), baseCard("Octal to Decimal", 8, 10, "Octal number")) }
+    }
+    /* ---------- projects ---------- */
+    function vProjects(a) {
+      const pr = C.projects.find(p => p.id === a[0]);
+      if (pr) {
+        view.innerHTML = `<a href="#projects">← All projects</a>
+   <div class="glass pad" style="margin-top:10px"><div class="thumb" style="height:200px;${pr.img ? `background-image:url('${esc(pr.img)}')` : ""}">${pr.img ? "" : esc(pr.title)}</div>
+   <span class="chip">${esc(pr.cat)}</span><h1 style="font-size:2rem;margin:8px 0">${esc(pr.title)}</h1><p>${esc(pr.desc)}</p><h3>Details</h3><p>${esc(pr.details)}</p><h3>Technologies</h3>${chips(pr.tech)}
+   <div class="row" style="margin-top:16px">${link("g", safeUrl(pr.github), "GitHub repository")}${link("l", safeUrl(pr.live), "Live demo")}</div></div>`; return
+      }
+      const cats = ["All", ...new Set(C.projects.map(p => p.cat))], techs = [...new Set(C.projects.flatMap(p => csv(p.tech)))].sort();
+      let cat = "All", tech = "";
+      const draw = () => {
+        const list = C.projects.filter(p => (cat === "All" || p.cat === cat) && (!tech || csv(p.tech).includes(tech)));
+        $("#pg").innerHTML = list.length ? list.map(projCard).join("") : `<p class="muted">No projects match these filters.</p>`;
+        $("#fc").innerHTML = cats.map(c => `<button data-c="${esc(c)}" class="${c === cat ? "on" : ""}">${esc(c)}</button>`).join("");
+        $("#ft").innerHTML = `<option value="">All technologies</option>` + techs.map(t => `<option ${t === tech ? "selected" : ""}>${esc(t)}</option>`).join("")
+      };
+      view.innerHTML = `<div class="sec-head"><div><div class="eyebrow">Showcase</div><h2>Projects</h2></div></div>
+  <div class="row" style="margin-bottom:14px"><div class="tabs" id="fc" style="margin:0"></div><select id="ft" style="width:auto" aria-label="Filter by technology"></select></div><div class="grid g3" id="pg"></div>`;
+      draw();
+      $("#fc").onclick = e => { const b = e.target.closest("button"); if (b) { cat = b.dataset.c; draw() } };
+      $("#ft").onchange = e => { tech = e.target.value; draw() };
+    }
+
+    /* ---------- profile ---------- */
+    function resumeMd() {
+      const p = C.profile;
+      return `# ${p.name}\n${p.title}\n\n${[p.email, p.phone, p.location, p.github, p.linkedin].filter(Boolean).join(" · ")}\n\n## Objective\n${p.objective}\n\n## Education\n${p.education}\n\n## Skills\n${p.skills}\n\n## Experience\n${C.exp.map(x => `- **${x.role}**, ${x.company}${x.period ? " (" + x.period + ")" : ""}: ${x.desc}`).join("\n")}\n\n## Projects\n${C.projects.map(x => `- **${x.title}** (${x.tech}): ${x.desc}`).join("\n")}\n\n## Certifications\n${C.certs.length ? C.certs.map(x => `- ${x.name}, ${x.org}${x.date ? " (" + x.date + ")" : ""}`).join("\n") : "-"}\n`;
+    }
+    function vProfile() {
+      const p = C.profile; const ru = p.resume ? p.resume : "";
+      view.innerHTML = `<section class="glass hero"><div><div class="eyebrow">Profile</div><h1>${esc(p.name)}</h1><p class="muted" style="font-size:1.05rem">${esc(p.title)}</p><p>${esc(p.intro)}</p>
+   <div class="row">${ru ? `<a class="btn pri" href="${esc(ru)}" download="Nelakurthi_Manisirisha_Resume.pdf" style="text-decoration:none">Download resume</a>` : `<button class="btn pri" id="dl" type="button">Download resume (Markdown)</button>`}</div></div>
+   <div class="avatar"><div style="${p.photo ? `background-image:url('${esc(p.photo)}')` : ""}">${p.photo ? "" : esc((p.nick || p.name || "?")[0])}</div></div></section>
+  <div class="grid g2" style="margin-top:16px">
+   <section class="glass pad"><h3>Education</h3><p>${esc(p.education)}</p><h3>Career objective</h3><p>${esc(p.objective)}</p></section>
+   <section class="glass pad"><h3>Programming languages</h3>${chips(p.languages)}<h3 style="margin-top:16px">Technical skills</h3>${chips(p.skills)}<h3 style="margin-top:16px">Areas of interest</h3>${chips(p.interests, "on")}</section>
+   <section class="glass pad"><h3>Contact</h3><table>${[["Email", p.email], ["Phone", p.phone], ["Location", p.location]].map(r => `<tr><th>${r[0]}</th><td>${r[1] ? esc(r[1]) : '<span class="muted">Not added yet</span>'}</td></tr>`).join("")}<tr><th>GitHub</th><td>${link("g", safeUrl(p.github), "Profile")}</td></tr><tr><th>LinkedIn</th><td>${link("l", safeUrl(p.linkedin), "Profile")}</td></tr></table></section></div>`;
+      const dl = $("#dl"); if (dl) dl.onclick = async () => {
+        if (!ctx.downloads) { toast("Downloads are not available in this view"); return }
+        try { await ctx.downloads.save({ filename: (p.nick || "resume") + "-resume.md", data: resumeMd() }); toast("Resume saved") } catch (e) { if (e.code !== "declined") toast("Could not save the file") }
+      };
+    }
+
+    /* ---------- certifications ---------- */
+    function vCerts() {
+      view.innerHTML = `<div class="sec-head"><div><div class="eyebrow">Credentials</div><h2>Certifications</h2></div></div>` + (C.certs.length ? `<div class="grid g3">${C.certs.map(c => `<div class="glass pad tilt cert"><div class="thumb" style="${c.img && !/\.pdf$/i.test(c.img) ? `background-image:url('${esc(c.img)}')` : ""}">${c.img ? "" : "🏅"}</div><h3>${esc(c.name)}</h3><div class="muted">${esc(c.org)}</div></div>`).join("")}</div>` : `<div class="glass pad" style="text-align:center"><div style="font-size:2.4rem">🏅</div><h3>No certifications added yet</h3><p class="muted">Certificates appear here as cards with the issuer.${ctx.isAdmin ? ' Add yours in <a href="#admin">Admin</a>.' : ""}</p></div>`);
+    }
+
+    /* ---------- experience ---------- */
+    function vExp() {
+      view.innerHTML = `<div class="sec-head"><div><div class="eyebrow">Career</div><h2>Internships & experience</h2></div></div>` + (C.exp.length ? `<div class="glass pad"><div class="tl">${C.exp.map(x => `<div><h3>${esc(x.role)}</h3><div class="muted">${esc(x.company)}${x.period ? " · " + esc(x.period) : ""}</div><p style="margin:8px 0">${esc(x.desc)}</p>${chips(x.skills)}</div>`).join("")}</div></div>` : `<div class="glass pad"><p class="muted">No experience added yet.</p></div>`);
+    }
+    /* ---------- admin ---------- */
+    const PF = [["name", "Full name"], ["nick", "Short name"], ["title", "Headline"], ["intro", "Introduction", "t"], ["photo", "Profile picture", "img"], ["education", "Education", "t"], ["skills", "Technical skills (comma separated)"], ["languages", "Programming languages"], ["interests", "Areas of interest"], ["objective", "Career objective", "t"], ["email", "Email"], ["phone", "Phone"], ["location", "Location"], ["github", "GitHub URL"], ["linkedin", "LinkedIn URL"], ["resume", "Resume file URL (optional)"]];
+    const LISTS = {
+      projects: { t: "Projects", f: [["title", "Title"], ["cat", "Category"], ["tech", "Technologies (comma separated)"], ["desc", "Short description"], ["details", "Details", "t"], ["img", "Image URL"], ["github", "GitHub URL"], ["live", "Live demo URL"]], blank: { title: "New project", cat: "Full-stack", tech: "", desc: "", details: "", img: "", github: "", live: "" } },
+      certs: { t: "Certifications", f: [["name", "Certificate name"], ["org", "Issuing organisation"], ["img", "Certificate image", "img"]], blank: { name: "", org: "", img: "" } },
+      exp: { t: "Experience", f: [["role", "Role"], ["company", "Company"], ["period", "Period"], ["desc", "Description", "t"], ["skills", "Skills (comma separated)"]], blank: { role: "", company: "", period: "", desc: "", skills: "" } }
+    };
+    function shrink(file, max, q) { return new Promise((res, rej) => { const r = new FileReader(); r.onload = () => { const im = new Image(); im.onload = () => { const k = Math.min(1, max / Math.max(im.width, im.height)), c = document.createElement("canvas"); c.width = im.width * k; c.height = im.height * k; c.getContext("2d").drawImage(im, 0, 0, c.width, c.height); res(c.toDataURL("image/jpeg", q)) }; im.onerror = rej; im.src = r.result }; r.onerror = rej; r.readAsDataURL(file) }) }
+    function fld(sec, i, [k, l, ty], v) {
+      const id = `a_${sec}_${i}_${k}`;
+      if (ty === "t") return `<div><label for="${id}">${l}</label><textarea id="${id}" data-s="${sec}" data-i="${i}" data-k="${k}">${esc(v)}</textarea></div>`;
+      if (ty === "img") return `<div><label for="${id}">${l}</label><input id="${id}" data-s="${sec}" data-i="${i}" data-k="${k}" value="${v && v.startsWith("data:") ? "" : esc(v)}" placeholder="${v && v.startsWith("data:") ? "(uploaded image)" : "URL or upload"}"><input type="file" accept="image/*" data-up="${id}" aria-label="Upload ${l}" style="margin-top:4px"></div>`;
+      return `<div><label for="${id}">${l}</label><input id="${id}" data-s="${sec}" data-i="${i}" data-k="${k}" value="${esc(v)}"></div>`;
+    }
+    function vAdmin() {
+      if (!ctx.isAdmin) { view.innerHTML = `<div class="glass pad"><h3>Admin is only available to editors of this page.</h3></div>`; return }
+      const D = JSON.parse(JSON.stringify(C)); const up = {};
+      const draw = () => {
+        view.innerHTML = `<div class="sec-head"><div><div class="eyebrow">Admin</div><h2>Edit site content</h2><div class="muted">Changes are saved to the page's shared database and appear for every visitor.</div></div><button class="btn pri" id="save" type="button">Save changes</button></div>
+  <section class="glass pad"><h3>Personal information</h3><div class="adm-row" style="border:0;padding:0">${PF.map(f => fld("profile", 0, f, D.profile[f[0]] || "")).join("")}</div></section>
+  ${Object.entries(LISTS).map(([s, L]) => `<section class="glass pad" style="margin-top:16px"><div class="row" style="justify-content:space-between"><h3>${L.t}</h3><button class="btn sm" data-add="${s}" type="button">+ Add</button></div>${D[s].map((it, i) => `<div class="adm-row">${L.f.map(f => fld(s, i, f, it[f[0]] || "")).join("")}<div><button class="btn sm" data-del="${s}:${i}" type="button">Remove</button></div></div>`).join("") || '<p class="muted">Nothing yet.</p>'}</section>`).join("")}`;
+      };
+      const collect = () => { view.querySelectorAll("[data-k]").forEach(el => { const { s, i, k } = el.dataset; const t = s === "profile" ? D.profile : D[s][+i]; if (!t) return; const v = el.value.trim(); if (el.type !== "file" && (v || !(t[k] || "").startsWith("data:"))) t[k] = v }) };
+      draw();
+      view.onclick = async e => {
+        const a = e.target.closest("[data-add]"), d = e.target.closest("[data-del]");
+        if (a) { collect(); D[a.dataset.add].push({ id: "i" + Date.now().toString(36), ...LISTS[a.dataset.add].blank }); draw() }
+        else if (d) { collect(); const [s, i] = d.dataset.del.split(":"); D[s].splice(+i, 1); draw() }
+        else if (e.target.id === "save") {
+          collect();
+          if (!ctx.db) { toast("Database unavailable, cannot save"); return }
+          const body = JSON.stringify(D); if (body.length > 240000) { toast("Too much data (images?). Use smaller images or URLs."); return }
+          try { await ctx.db.doc("site/content").set(D); C = mergeC(D); toast("Saved") } catch (err) { toast("Save failed: " + (err.code || "error")) }
+        }
+      };
+      view.onchange = async e => {
+        const f = e.target; if (f.type !== "file" || !f.files[0]) return;
+        const id = f.dataset.up, t = document.getElementById(id); collect();
+        try { const max = t.dataset.k === "photo" ? 240 : 520; const url = await shrink(f.files[0], max, .7); const { s, i, k } = t.dataset; (s === "profile" ? D.profile : D[s][+i])[k] = url; draw(); toast("Image added. Remember to save.") } catch (x) { toast("Could not read that image") }
+      };
+    }
+    function mergeC(d) { const m = JSON.parse(JSON.stringify(DEFAULTS)); if (d) { Object.assign(m.profile, d.profile || {}); for (const k of ["projects", "certs", "exp"]) if (Array.isArray(d[k])) m[k] = d[k] } return m }
+
+    /* ---------- AI chat ---------- */
+    const turns = []; let chatBusy = false;
+    function openChat() { $("#chat").hidden = false; if (!$("#log").children.length) addMsg("a", "Hi! Ask me about any CS topic, a bug, an interview question, or these projects."); $("#chatin").focus() }
+    function addMsg(r, t) { const m = document.createElement("div"); m.className = "msg " + r; m.textContent = t; $("#log").append(m); $("#log").scrollTop = 1e9; return m }
+    $("#fab").onclick = () => { $("#chat").hidden ? openChat() : ($("#chat").hidden = true) };
+    $("#chatx").onclick = () => $("#chat").hidden = true;
+    $("#chatf").onsubmit = async e => {
+      e.preventDefault(); const inp = $("#chatin"), q = inp.value.trim(); if (!q || chatBusy) return;
+      addMsg("u", q); inp.value = "";
+      if (!ctx.sample) { addMsg("a", "The AI assistant is not available in this view."); return }
+      chatBusy = true; $("#chatgo").disabled = true; const b = addMsg("a", "Thinking…");
+      const p = C.profile;
+      const rules = `You are the friendly study assistant inside ${p.name}'s computer science hub. Explain clearly for a CS student, keep answers under 200 words, use short code blocks only when helpful, and never invent facts about the owner. Owner profile: ${p.title}. Skills: ${p.skills}. Projects: ${C.projects.map(x => x.title).join("; ")}.`;
+      turns.push({ role: "user", content: q });
+      try {
+        const r = await ctx.sample([{ role: "user", content: rules }, ...turns.slice(-8)], { cache: false, modelTier: "quick", onText: ({ text }) => { b.textContent = text; $("#log").scrollTop = 1e9 } });
+        turns.push({ role: "assistant", content: r.text }); b.textContent = r.text
+      }
+      catch (err) { turns.pop(); b.textContent = err.code === "not_granted" ? "Permission to use Claude was declined." : err.code === "rate_limited" ? "Too many requests. Please try again in a moment." : (err.text || "Sorry, I could not answer that. Please try again.") }
+      chatBusy = false; $("#chatgo").disabled = false;
+    };
+
+    /* ---------- animated background ---------- */
+    (function () {
+      const cv = $("#bg"), g = cv.getContext("2d"); let W, H, pts = [];
+      const rm = matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const size = () => { W = cv.width = innerWidth; H = cv.height = innerHeight; pts = Array.from({ length: Math.min(80, Math.floor(W * H / 18000)) }, () => ({ x: Math.random() * W, y: Math.random() * H, vx: (Math.random() - .5) * .35, vy: (Math.random() - .5) * .35 })) };
+      const frame = () => {
+        g.clearRect(0, 0, W, H);
+        for (const p of pts) {
+          if (!rm) { p.x += p.vx; p.y += p.vy; if (p.x < 0 || p.x > W) p.vx *= -1; if (p.y < 0 || p.y > H) p.vy *= -1 }
+          g.fillStyle = "rgba(34,211,238,.7)"; g.beginPath(); g.arc(p.x, p.y, 1.6, 0, 6.3); g.fill()
+        }
+        for (let i = 0; i < pts.length; i++)for (let j = i + 1; j < pts.length; j++) { const dx = pts[i].x - pts[j].x, dy = pts[i].y - pts[j].y, d = dx * dx + dy * dy; if (d < 19000) { g.strokeStyle = `rgba(70,150,255,${.28 * (1 - d / 19000)})`; g.beginPath(); g.moveTo(pts[i].x, pts[i].y); g.lineTo(pts[j].x, pts[j].y); g.stroke() } }
+        if (!rm) requestAnimationFrame(frame)
+      };
+      addEventListener("resize", () => { size(); if (rm) frame() }); size(); frame();
+    })();
+
+    /* ---------- boot ---------- */
+    async function boot() {
+      route();
+      const get = async n => { try { return await claude.use(n) } catch (e) { return null } };
+      if (!window.claude) return;
+      const [db, user, sample, downloads] = await Promise.all([get("db"), get("user"), get("sample"), get("downloads")]);
+      ctx.db = db; ctx.sample = sample; ctx.downloads = downloads;
+      try { if (user) { ctx.uid = await user.id(); ctx.isAdmin = await user.canEdit() } } catch (e) { }
+      drawNav();
+      if (db) { try { db.doc("site/content").onSnapshot(s => { if (s.exists) { C = mergeC(s.data()); if (/^#?(home|profile|projects|certs|exp)?(\/.*)?$/.test(location.hash || "#home")) route() } }, () => { }) } catch (e) { } }
+      if ((location.hash || "").indexOf("#admin") === 0) route();
+    }
+    boot();
+  </script>
+
+</body>
+
+</html>
